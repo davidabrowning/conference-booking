@@ -2,8 +2,8 @@
 {
     public interface IRepository<T>
     {
-        void Add(T entity);
-        T? GetById(int id);
-        IEnumerable<T> GetAll();
+        Task AddAsync(T entity);
+        Task<T?> GetByIdAsync(int id);
+        Task<IEnumerable<T>> GetAllAsync();
     }
 }

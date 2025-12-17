@@ -1,6 +1,5 @@
 ﻿using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Core.Models;
-using ConferenceBooking.Data;
 using ConferenceBooking.Data.Repositories;
 using ConferenceBooking.DataTests.Mock;
 
@@ -9,26 +8,57 @@ namespace ConferenceBooking.DataTests
     public class BookingRepositoryTests
     {
         private IBookingRepository _bookingRepository;
+        private Room _room;
 
         public BookingRepositoryTests()
         {
-            ApplicationDbContext applicationDbContext = InMemoryDatabaseHelper.CreateApplicationDbContext();
-            _bookingRepository = new BookingRepository(applicationDbContext);
+            _bookingRepository = new BookingRepository(InMemoryDatabaseHelper
+                .CreateApplicationDbContext("BookingRepositoryTests"));
+            _room = new() { Name = "BookRepo test room" };
         }
 
         [Fact]
-        public void Add_WhenCalled_IncreasesGetAllCountByOne()
+        public async Task Add_WhenCalled_IncreasesGetAllCountByOne()
         {
             // Arrange
-            Room room = new() { Name = "Room1" };
-            Booking booking = new() { Room = room };
-            int expectedCount = _bookingRepository.GetAll().Count() + 1;
+            Booking booking = new() { Room = _room };
+            int expectedCount = (await _bookingRepository.GetAllAsync()).Count() + 1;
 
             // Act
-            _bookingRepository.Add(booking);
+            await _bookingRepository.AddAsync(booking);
 
             // Assert
-            Assert.Equal(expectedCount, _bookingRepository.GetAll().Count());
+            Assert.Equal(expectedCount, (await _bookingRepository.GetAllAsync()).Count());
+        }
+
+        [Fact]
+        public async Task GetById_Initially_ReturnsNull()
+        {
+            // Arrange
+            Booking? result;
+
+            // Act
+            result = await _bookingRepository.GetByIdAsync(0);
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task GetById_AfterAddingBooking_IsNotNull()
+        {
+            // Arrange
+            Booking? result;
+            Booking booking = new() { Room = _room };
+            _bookingRepository.AddAsync(booking);
+            IEnumerable<Booking> bookings = await _bookingRepository.GetAllAsync();
+            int bookingId = bookings.First().Id;
+
+            // Act
+            result = await _bookingRepository.GetByIdAsync(bookingId);
+
+            // Assert
+            Assert.NotNull(result);
         }
     }
 }

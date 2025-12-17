@@ -4,10 +4,10 @@ namespace ConferenceBooking.Core.Interfaces
 {
     public interface IBookingService
     {
-        IEnumerable<BookingDto> GetAllBookings();
-        void AddBooking(BookingDto bookingDto);
-        IEnumerable<BookingDto> GetBookingsByRoom(RoomDto roomDto1);
-        void AddRoom(RoomDto roomDto);
-        RoomDto GetRoomByName(string roomName);
+        Task<IEnumerable<BookingDto>> GetAllBookingsAsync();
+        Task AddBooking(BookingDto bookingDto);
+        Task<IEnumerable<BookingDto>> GetBookingsByRoom(RoomDto roomDto1);
+        Task AddRoom(RoomDto roomDto);
+        Task<RoomDto> GetRoomByName(string roomName);
     }
 }

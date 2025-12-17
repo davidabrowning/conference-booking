@@ -8,23 +8,23 @@ namespace ConferenceBooking.ServicesTests.Mock
         private static int NextId = 1;
         private List<Room> _rooms = new();
 
-        public void Add(Room room)
+        public async Task AddAsync(Room room)
         {
             room.Id = NextId++;
             _rooms.Add(room);
         }
 
-        public IEnumerable<Room> GetAll()
+        public async Task<IEnumerable<Room>> GetAllAsync()
         {
             return _rooms.ToList();
         }
 
-        public Room? GetById(int id)
+        public async Task<Room?> GetByIdAsync(int id)
         {
             return _rooms.FirstOrDefault(r => r.Id == id);
         }
 
-        public Room? GetByName(string name)
+        public async Task<Room?> GetByNameAsync(string name)
         {
             return _rooms.FirstOrDefault(r => r.Name == name);
         }

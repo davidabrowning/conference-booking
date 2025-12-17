@@ -7,18 +7,18 @@ namespace ConferenceBooking.ServicesTests.Mock
     {
         private static int NextId = 1;
         private List<Booking> _bookings = new();
-        public void Add(Booking booking)
+        public async Task AddAsync(Booking booking)
         {
             booking.Id = NextId++;
             _bookings.Add(booking);
         }
 
-        public IEnumerable<Booking> GetAll()
+        public async Task<IEnumerable<Booking>> GetAllAsync()
         {
             return _bookings.ToList();
         }
 
-        public Booking GetById(int id)
+        public async Task<Booking> GetByIdAsync(int id)
         {
             return _bookings.Where(b => b.Id == id).FirstOrDefault();
         }

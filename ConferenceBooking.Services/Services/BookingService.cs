@@ -15,41 +15,41 @@ namespace ConferenceBooking.Services.Services
             _roomRepository = roomRepository;
         }
 
-        public void AddBooking(BookingDto bookingDto)
+        public async Task AddBooking(BookingDto bookingDto)
         {
             Booking booking = new()
             {
-                Room = _roomRepository.GetById(bookingDto.RoomId),
+                Room = await _roomRepository.GetByIdAsync(bookingDto.RoomId),
             };
-            _bookingRepository.Add(booking);
+            await _bookingRepository.AddAsync(booking);
         }
 
-        public void AddRoom(RoomDto roomDto)
+        public async Task AddRoom(RoomDto roomDto)
         {
             Room room = new()
             {
                 Name = roomDto.Name,
             };
-            _roomRepository.Add(room);
+            await _roomRepository.AddAsync(room);
         }
 
-        public IEnumerable<BookingDto> GetAllBookings()
+        public async Task<IEnumerable<BookingDto>> GetAllBookingsAsync()
         {
             List<BookingDto> bookingDtos = new();
-            IEnumerable<Booking> bookings = _bookingRepository.GetAll();
+            IEnumerable<Booking> bookings = await _bookingRepository.GetAllAsync();
             foreach (Booking booking in bookings)
                 bookingDtos.Add(new BookingDto() { Id = booking.Id, RoomId = booking.Room.Id });
             return bookingDtos;
         }
 
-        public IEnumerable<BookingDto> GetBookingsByRoom(RoomDto roomDto1)
+        public async Task<IEnumerable<BookingDto>> GetBookingsByRoom(RoomDto roomDto1)
         {
-            return GetAllBookings().Where(b => b.RoomId == roomDto1.Id);
+            return (await GetAllBookingsAsync()).Where(b => b.RoomId == roomDto1.Id);
         }
 
-        public RoomDto GetRoomByName(string roomName)
+        public async Task<RoomDto> GetRoomByName(string roomName)
         {
-            Room room = _roomRepository.GetByName(roomName);
+            Room room = await _roomRepository.GetByNameAsync(roomName);
             RoomDto roomDto = new() { 
                 Id = room.Id,
                 Name = room.Name 

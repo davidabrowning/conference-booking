@@ -1,29 +1,30 @@
 ﻿using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConferenceBooking.Data.Repositories
 {
     public class BookingRepository : IBookingRepository
     {
-        private ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
         public BookingRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
         }
-        public void Add(Booking booking)
+        public async Task AddAsync(Booking booking)
         {
-            _applicationDbContext.Bookings.Add(booking);
-            _applicationDbContext.SaveChanges();
+            await _applicationDbContext.Bookings.AddAsync(booking);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<Booking> GetAll()
+        public async Task<IEnumerable<Booking>> GetAllAsync()
         {
-            return _applicationDbContext.Bookings.ToList();
+            return await _applicationDbContext.Bookings.ToListAsync();
         }
 
-        public Booking? GetById(int id)
+        public async Task<Booking?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _applicationDbContext.Bookings.FirstOrDefaultAsync(b => b.Id == id);
         }
     }
 }
