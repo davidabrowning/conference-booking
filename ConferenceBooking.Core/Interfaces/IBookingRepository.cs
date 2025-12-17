@@ -2,10 +2,8 @@
 
 namespace ConferenceBooking.Core.Interfaces
 {
-    public interface IBookingRepository
+    public interface IBookingRepository : IRepository<Booking>
     {
-        void AddBooking(Booking booking);
-        IEnumerable<Booking> GetAllBookings();
         Room? GetRoom(int roomId);
         Room? GetRoomByName(string name);
         void AddRoom(Room room);

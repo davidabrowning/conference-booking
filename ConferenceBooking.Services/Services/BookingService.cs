@@ -18,7 +18,7 @@ namespace ConferenceBooking.Services.Services
             {
                 Room = _bookingRepository.GetRoom(bookingDto.RoomId),
             };
-            _bookingRepository.AddBooking(booking);
+            _bookingRepository.Add(booking);
         }
 
         public void AddRoom(RoomDto roomDto)
@@ -33,7 +33,7 @@ namespace ConferenceBooking.Services.Services
         public IEnumerable<BookingDto> GetAllBookings()
         {
             List<BookingDto> bookingDtos = new();
-            IEnumerable<Booking> bookings = _bookingRepository.GetAllBookings();
+            IEnumerable<Booking> bookings = _bookingRepository.GetAll();
             foreach (Booking booking in bookings)
                 bookingDtos.Add(new BookingDto() { Id = booking.Id, RoomId = booking.Room.Id });
             return bookingDtos;

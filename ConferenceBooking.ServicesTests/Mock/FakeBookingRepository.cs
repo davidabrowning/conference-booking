@@ -8,7 +8,7 @@ namespace ConferenceBooking.ServicesTests.Mock
         private static int NextId = 1;
         private List<Booking> _bookings = new();
         private List<Room> _rooms = new();
-        public void AddBooking(Booking booking)
+        public void Add(Booking booking)
         {
             booking.Id = NextId++;
             _bookings.Add(booking);
@@ -20,7 +20,7 @@ namespace ConferenceBooking.ServicesTests.Mock
             _rooms.Add(room);
         }
 
-        public IEnumerable<Booking> GetAllBookings()
+        public IEnumerable<Booking> GetAll()
         {
             return _bookings.ToList();
         }
