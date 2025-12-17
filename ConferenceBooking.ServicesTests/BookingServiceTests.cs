@@ -1,5 +1,6 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
+using ConferenceBooking.Services.Mappers;
 using ConferenceBooking.Services.Services;
 using ConferenceBooking.ServicesTests.Mock;
 
@@ -24,7 +25,11 @@ namespace ConferenceBooking.ServicesTests
             string roomName = "Room1";
             await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName });
             RoomDto roomDto = await _bookingService.GetRoomByNameAsync("Room1");
-            BookingDto bookingDto = new() { RoomId = roomDto.Id };
+            BookingDto bookingDto = new() { 
+                RoomId = roomDto.Id,
+                StartDateTime = DateTime.Now,
+                EndDateTime = DateTime.Now
+            };
 
             // Act
             await _bookingService.AddBookingAsync(bookingDto);
@@ -44,9 +49,20 @@ namespace ConferenceBooking.ServicesTests
             await _bookingService.AddRoomAsync(new RoomDto() { Name = room2Name });
             RoomDto roomDto1 = await _bookingService.GetRoomByNameAsync(room1Name);
             RoomDto roomDto2 = await _bookingService.GetRoomByNameAsync(room2Name);
+            BookingDto bookingDto1 = new() { 
+                RoomId = roomDto1.Id,
+                StartDateTime = DateTime.Now,
+                EndDateTime = DateTime.Now
+            };
+            BookingDto bookingDto2 = new()
+            {
+                RoomId = roomDto2.Id,
+                StartDateTime = DateTime.Now,
+                EndDateTime = DateTime.Now
+            };
             for (int i = 0; i < expectedCount; i++)
-                await _bookingService.AddBookingAsync(new BookingDto { RoomId = roomDto1.Id });
-            await _bookingService.AddBookingAsync(new BookingDto { RoomId = roomDto2.Id });
+                await _bookingService.AddBookingAsync(bookingDto1);
+            await _bookingService.AddBookingAsync(bookingDto2);
 
             // Act
             IEnumerable<BookingDto> bookingDtos = await _bookingService.GetBookingsByRoomAsync(roomDto1);

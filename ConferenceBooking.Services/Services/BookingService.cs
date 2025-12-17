@@ -1,6 +1,7 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Core.Models;
+using ConferenceBooking.Services.Mappers;
 
 namespace ConferenceBooking.Services.Services
 {
@@ -17,11 +18,7 @@ namespace ConferenceBooking.Services.Services
 
         public async Task AddBookingAsync(BookingDto bookingDto)
         {
-            Booking booking = new()
-            {
-                Room = await _roomRepository.GetByIdAsync(bookingDto.RoomId),
-            };
-            await _bookingRepository.AddAsync(booking);
+            await _bookingRepository.AddAsync(BookingMapper.ToModel(bookingDto));
         }
 
         public async Task AddRoomAsync(RoomDto roomDto)
@@ -38,7 +35,7 @@ namespace ConferenceBooking.Services.Services
             List<BookingDto> bookingDtos = new();
             IEnumerable<Booking> bookings = await _bookingRepository.GetAllAsync();
             foreach (Booking booking in bookings)
-                bookingDtos.Add(new BookingDto() { Id = booking.Id, RoomId = booking.Room.Id });
+                bookingDtos.Add(BookingMapper.ToDto(booking));
             return bookingDtos;
         }
 

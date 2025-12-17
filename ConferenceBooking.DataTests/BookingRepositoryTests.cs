@@ -21,7 +21,11 @@ namespace ConferenceBooking.DataTests
         public async Task Add_WhenCalledOnce_ShouldIncreaseGetAllCountByOne()
         {
             // Arrange
-            Booking booking = new() { Room = _room };
+            Booking booking = new() { 
+                RoomId = 1,
+                StartDateTime = DateTime.Now,
+                EndDateTime = DateTime.Now
+            };
             int expectedCount = (await _bookingRepository.GetAllAsync()).Count() + 1;
 
             // Act
@@ -49,7 +53,12 @@ namespace ConferenceBooking.DataTests
         {
             // Arrange
             Booking? result;
-            Booking booking = new() { Room = _room };
+            Booking booking = new()
+            {
+                RoomId = 1,
+                StartDateTime = DateTime.Now,
+                EndDateTime = DateTime.Now
+            };
             await _bookingRepository.AddAsync(booking);
             IEnumerable<Booking> bookings = await _bookingRepository.GetAllAsync();
             int bookingId = bookings.First().Id;
