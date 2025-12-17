@@ -2,7 +2,7 @@
 using ConferenceBooking.Core.Models;
 using ConferenceBooking.Data;
 using ConferenceBooking.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
+using ConferenceBooking.DataTests.Mock;
 
 namespace ConferenceBooking.DataTests
 {
@@ -13,13 +13,9 @@ namespace ConferenceBooking.DataTests
 
         public BookingRepositoryTests()
         {
-            DbContextOptions<ApplicationDbContext> dbContextOptions
-                = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("TestInMemoryDatabase")
-                .Options;
-            _applicationDbContext = new(dbContextOptions);
-            _applicationDbContext.Database.EnsureCreated();
+            _applicationDbContext = InMemoryDatabaseHelper.CreateApplicationDbContext();
             _bookingRepository = new BookingRepository(_applicationDbContext);
+            _applicationDbContext.Database.EnsureCreated();
         }
 
         public void Dispose()
