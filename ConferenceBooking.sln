@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceBooking.Data", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceBooking.WebApi", "ConferenceBooking.WebApi\ConferenceBooking.WebApi.csproj", "{2937545B-885F-472A-B85F-C73C6065B004}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{47D3174F-311D-4367-8E2D-26A7B21DCAE1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{927A779E-251A-4EB9-80C3-AA5933C1AA57} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{45947D0C-CB4D-40AD-87F8-C1D0BD059319} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2937545B-885F-472A-B85F-C73C6065B004} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {426430F3-DD4B-4D18-988D-F1BF1C71E9B8}
