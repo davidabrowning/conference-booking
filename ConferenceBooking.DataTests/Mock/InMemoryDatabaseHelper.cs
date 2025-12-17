@@ -6,9 +6,9 @@ namespace ConferenceBooking.DataTests.Mock
     public static class InMemoryDatabaseHelper
     {
         private static ApplicationDbContext contextSingleton;
-        public static ApplicationDbContext CreateApplicationDbContext(string callingClassName)
+        public static ApplicationDbContext CreateApplicationDbContext()
         {
-            ApplicationDbContextCreator applicationDbContextCreator = new(callingClassName);
+            ApplicationDbContextCreator applicationDbContextCreator = new();
             return applicationDbContextCreator.ApplicationDbContext;
         }
     }
@@ -16,11 +16,11 @@ namespace ConferenceBooking.DataTests.Mock
     public class ApplicationDbContextCreator : IDisposable
     {
         public ApplicationDbContext ApplicationDbContext { get; }
-        public ApplicationDbContextCreator(string callingClassName)
+        public ApplicationDbContextCreator()
         {
             DbContextOptions<ApplicationDbContext> dbContextOptions
                 = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("TestInMemoryDatabaseFor" + callingClassName)
+                .UseInMemoryDatabase("TestInMemoryDatabase")
                 .Options;
             ApplicationDbContext = new ApplicationDbContext(dbContextOptions);
             ApplicationDbContext.Database.EnsureCreated();

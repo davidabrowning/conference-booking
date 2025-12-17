@@ -13,7 +13,7 @@ namespace ConferenceBooking.DataTests
         public BookingRepositoryTests()
         {
             _bookingRepository = new BookingRepository(InMemoryDatabaseHelper
-                .CreateApplicationDbContext("BookingRepositoryTests"));
+                .CreateApplicationDbContext());
             _room = new() { Name = "BookRepo test room" };
         }
 
