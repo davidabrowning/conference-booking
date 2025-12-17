@@ -22,12 +22,12 @@ namespace ConferenceBooking.ServicesTests
             // Arrange
             int expectedCount = (await _bookingService.GetAllBookingsAsync()).Count() + 1;
             string roomName = "Room1";
-            await _bookingService.AddRoom(new RoomDto() { Name = roomName });
-            RoomDto roomDto = await _bookingService.GetRoomByName("Room1");
+            await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName });
+            RoomDto roomDto = await _bookingService.GetRoomByNameAsync("Room1");
             BookingDto bookingDto = new() { RoomId = roomDto.Id };
 
             // Act
-            await _bookingService.AddBooking(bookingDto);
+            await _bookingService.AddBookingAsync(bookingDto);
 
             // Assert
             Assert.Equal(expectedCount, (await _bookingService.GetAllBookingsAsync()).Count());
@@ -40,16 +40,16 @@ namespace ConferenceBooking.ServicesTests
             int expectedCount = 2;
             string room1Name = "Room1";
             string room2Name = "Room2";
-            await _bookingService.AddRoom(new RoomDto() { Name = room1Name });
-            await _bookingService.AddRoom(new RoomDto() { Name = room2Name });
-            RoomDto roomDto1 = await _bookingService.GetRoomByName(room1Name);
-            RoomDto roomDto2 = await _bookingService.GetRoomByName(room2Name);
+            await _bookingService.AddRoomAsync(new RoomDto() { Name = room1Name });
+            await _bookingService.AddRoomAsync(new RoomDto() { Name = room2Name });
+            RoomDto roomDto1 = await _bookingService.GetRoomByNameAsync(room1Name);
+            RoomDto roomDto2 = await _bookingService.GetRoomByNameAsync(room2Name);
             for (int i = 0; i < expectedCount; i++)
-                await _bookingService.AddBooking(new BookingDto { RoomId = roomDto1.Id });
-            await _bookingService.AddBooking(new BookingDto { RoomId = roomDto2.Id });
+                await _bookingService.AddBookingAsync(new BookingDto { RoomId = roomDto1.Id });
+            await _bookingService.AddBookingAsync(new BookingDto { RoomId = roomDto2.Id });
 
             // Act
-            IEnumerable<BookingDto> bookingDtos = await _bookingService.GetBookingsByRoom(roomDto1);
+            IEnumerable<BookingDto> bookingDtos = await _bookingService.GetBookingsByRoomAsync(roomDto1);
 
             // Assert
             Assert.Equal(expectedCount, bookingDtos.Count());

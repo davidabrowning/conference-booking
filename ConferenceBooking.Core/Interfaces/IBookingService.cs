@@ -5,9 +5,9 @@ namespace ConferenceBooking.Core.Interfaces
     public interface IBookingService
     {
         Task<IEnumerable<BookingDto>> GetAllBookingsAsync();
-        Task AddBooking(BookingDto bookingDto);
-        Task<IEnumerable<BookingDto>> GetBookingsByRoom(RoomDto roomDto1);
-        Task AddRoom(RoomDto roomDto);
-        Task<RoomDto> GetRoomByName(string roomName);
+        Task AddBookingAsync(BookingDto bookingDto);
+        Task<IEnumerable<BookingDto>> GetBookingsByRoomAsync(RoomDto roomDto1);
+        Task AddRoomAsync(RoomDto roomDto);
+        Task<RoomDto> GetRoomByNameAsync(string roomName);
     }
 }

@@ -15,7 +15,7 @@ namespace ConferenceBooking.Services.Services
             _roomRepository = roomRepository;
         }
 
-        public async Task AddBooking(BookingDto bookingDto)
+        public async Task AddBookingAsync(BookingDto bookingDto)
         {
             Booking booking = new()
             {
@@ -24,7 +24,7 @@ namespace ConferenceBooking.Services.Services
             await _bookingRepository.AddAsync(booking);
         }
 
-        public async Task AddRoom(RoomDto roomDto)
+        public async Task AddRoomAsync(RoomDto roomDto)
         {
             Room room = new()
             {
@@ -42,12 +42,12 @@ namespace ConferenceBooking.Services.Services
             return bookingDtos;
         }
 
-        public async Task<IEnumerable<BookingDto>> GetBookingsByRoom(RoomDto roomDto1)
+        public async Task<IEnumerable<BookingDto>> GetBookingsByRoomAsync(RoomDto roomDto1)
         {
             return (await GetAllBookingsAsync()).Where(b => b.RoomId == roomDto1.Id);
         }
 
-        public async Task<RoomDto> GetRoomByName(string roomName)
+        public async Task<RoomDto> GetRoomByNameAsync(string roomName)
         {
             Room room = await _roomRepository.GetByNameAsync(roomName);
             RoomDto roomDto = new() { 
