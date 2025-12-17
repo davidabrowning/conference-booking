@@ -6,7 +6,7 @@ using ConferenceBooking.DataTests.Mock;
 
 namespace ConferenceBooking.DataTests
 {
-    public class BookingRepositoryTests : IDisposable
+    public class BookingRepositoryTests
     {
         private ApplicationDbContext _applicationDbContext;
         private IBookingRepository _bookingRepository;
@@ -15,12 +15,6 @@ namespace ConferenceBooking.DataTests
         {
             _applicationDbContext = InMemoryDatabaseHelper.CreateApplicationDbContext();
             _bookingRepository = new BookingRepository(_applicationDbContext);
-            _applicationDbContext.Database.EnsureCreated();
-        }
-
-        public void Dispose()
-        {
-            _applicationDbContext.Database.EnsureDeleted();
         }
 
         [Fact]
