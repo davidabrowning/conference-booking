@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConferenceBooking.Core\ConferenceBooking.Core.csproj" />
+    <ProjectReference Include="..\ConferenceBooking.Services\ConferenceBooking.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
