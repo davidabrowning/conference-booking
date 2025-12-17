@@ -50,7 +50,7 @@ namespace ConferenceBooking.DataTests
             // Arrange
             Booking? result;
             Booking booking = new() { Room = _room };
-            _bookingRepository.AddAsync(booking);
+            await _bookingRepository.AddAsync(booking);
             IEnumerable<Booking> bookings = await _bookingRepository.GetAllAsync();
             int bookingId = bookings.First().Id;
 
