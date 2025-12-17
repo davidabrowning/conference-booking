@@ -7,16 +7,19 @@ namespace ConferenceBooking.Services.Services
     public class BookingService : IBookingService
     {
         private readonly IBookingRepository _bookingRepository;
-        public BookingService(IBookingRepository bookingRepository)
+        private readonly IRoomRepository _roomRepository;
+
+        public BookingService(IBookingRepository bookingRepository, IRoomRepository roomRepository)
         {
             _bookingRepository = bookingRepository;
+            _roomRepository = roomRepository;
         }
 
         public void AddBooking(BookingDto bookingDto)
         {
             Booking booking = new()
             {
-                Room = _bookingRepository.GetRoom(bookingDto.RoomId),
+                Room = _roomRepository.GetById(bookingDto.RoomId),
             };
             _bookingRepository.Add(booking);
         }
@@ -27,7 +30,7 @@ namespace ConferenceBooking.Services.Services
             {
                 Name = roomDto.Name,
             };
-            _bookingRepository.AddRoom(room);
+            _roomRepository.Add(room);
         }
 
         public IEnumerable<BookingDto> GetAllBookings()
@@ -46,7 +49,7 @@ namespace ConferenceBooking.Services.Services
 
         public RoomDto GetRoomByName(string roomName)
         {
-            Room room = _bookingRepository.GetRoomByName(roomName);
+            Room room = _roomRepository.GetByName(roomName);
             RoomDto roomDto = new() { 
                 Id = room.Id,
                 Name = room.Name 

@@ -12,7 +12,8 @@ namespace ConferenceBooking.ServicesTests
         public BookingServiceTests()
         {
             IBookingRepository fakeBookingRepository = new FakeBookingRepository();
-            _bookingService = new BookingService(fakeBookingRepository);
+            IRoomRepository fakeRoomRepository = new FakeRoomRepository();
+            _bookingService = new BookingService(fakeBookingRepository, fakeRoomRepository);
         }
 
         [Fact]
