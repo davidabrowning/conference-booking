@@ -8,13 +8,12 @@ namespace ConferenceBooking.DataTests
 {
     public class BookingRepositoryTests
     {
-        private ApplicationDbContext _applicationDbContext;
         private IBookingRepository _bookingRepository;
 
         public BookingRepositoryTests()
         {
-            _applicationDbContext = InMemoryDatabaseHelper.CreateApplicationDbContext();
-            _bookingRepository = new BookingRepository(_applicationDbContext);
+            ApplicationDbContext applicationDbContext = InMemoryDatabaseHelper.CreateApplicationDbContext();
+            _bookingRepository = new BookingRepository(applicationDbContext);
         }
 
         [Fact]
