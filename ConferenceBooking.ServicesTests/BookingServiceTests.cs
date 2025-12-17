@@ -1,6 +1,5 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
-using ConferenceBooking.Services.Mappers;
 using ConferenceBooking.Services.Services;
 using ConferenceBooking.ServicesTests.Mock;
 
