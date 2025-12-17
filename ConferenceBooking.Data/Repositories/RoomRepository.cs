@@ -26,12 +26,12 @@ namespace ConferenceBooking.Data.Repositories
 
         public async Task<Room?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _applicationDbContext.Rooms.FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<Room?> GetByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            return await _applicationDbContext.Rooms.FirstOrDefaultAsync(r => r.Name == name);
         }
     }
 }
