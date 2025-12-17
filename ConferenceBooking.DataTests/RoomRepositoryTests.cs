@@ -2,11 +2,6 @@
 using ConferenceBooking.Core.Models;
 using ConferenceBooking.Data.Repositories;
 using ConferenceBooking.DataTests.Mock;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConferenceBooking.DataTests
 {
@@ -21,7 +16,7 @@ namespace ConferenceBooking.DataTests
         }
 
         [Fact]
-        public async Task Add_WhenCalled_IncreasesGetAllCountByOne()
+        public async Task Add_WhenCalledOnce_ShouldIncreaseGetAllCountByOne()
         {
             // Arrange
             Room room = new() { Name = "RoomX" };

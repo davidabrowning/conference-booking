@@ -18,7 +18,7 @@ namespace ConferenceBooking.DataTests
         }
 
         [Fact]
-        public async Task Add_WhenCalled_IncreasesGetAllCountByOne()
+        public async Task Add_WhenCalledOnce_ShouldIncreaseGetAllCountByOne()
         {
             // Arrange
             Booking booking = new() { Room = _room };
@@ -32,7 +32,7 @@ namespace ConferenceBooking.DataTests
         }
 
         [Fact]
-        public async Task GetById_Initially_ReturnsNull()
+        public async Task GetById_Initially_ShouldReturnNull()
         {
             // Arrange
             Booking? result;
@@ -45,7 +45,7 @@ namespace ConferenceBooking.DataTests
         }
 
         [Fact]
-        public async Task GetById_AfterAddingBooking_IsNotNull()
+        public async Task GetById_AfterAddingBooking_ShouldNotReturnNull()
         {
             // Arrange
             Booking? result;
