@@ -2,6 +2,7 @@
 using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Services.Services;
 using ConferenceBooking.ServicesTests.Mock;
+using System.Threading.Tasks;
 
 namespace ConferenceBooking.ServicesTests
 {
@@ -24,7 +25,8 @@ namespace ConferenceBooking.ServicesTests
             string roomName = "Room1";
             await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName });
             RoomDto roomDto = await _bookingService.GetRoomByNameAsync("Room1");
-            BookingDto bookingDto = new() { 
+            BookingDto bookingDto = new()
+            {
                 RoomId = roomDto.Id,
                 StartDateTime = DateTime.Now,
                 EndDateTime = DateTime.Now
@@ -48,7 +50,8 @@ namespace ConferenceBooking.ServicesTests
             await _bookingService.AddRoomAsync(new RoomDto() { Name = room2Name });
             RoomDto roomDto1 = await _bookingService.GetRoomByNameAsync(room1Name);
             RoomDto roomDto2 = await _bookingService.GetRoomByNameAsync(room2Name);
-            BookingDto bookingDto1 = new() { 
+            BookingDto bookingDto1 = new()
+            {
                 RoomId = roomDto1.Id,
                 StartDateTime = DateTime.Now,
                 EndDateTime = DateTime.Now
@@ -68,6 +71,63 @@ namespace ConferenceBooking.ServicesTests
 
             // Assert
             Assert.Equal(expectedCount, bookingDtos.Count());
+        }
+
+        [Fact]
+        public async Task AddBooking_WhenEndIsBeforeStart_ShouldThrowException()
+        {
+            // Arrange
+            string roomName = "TestRoom";
+            await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName });
+            RoomDto roomDto = await _bookingService.GetRoomByNameAsync(roomName);
+            DateTime startDateTime = DateTime.Now.AddHours(1);
+            DateTime endDateTime = DateTime.Now.AddHours(2);
+            BookingDto bookingDto1 = new()
+            {
+                RoomId = roomDto.Id,
+                StartDateTime = startDateTime,
+                EndDateTime = endDateTime
+            };
+            BookingDto bookingDto2 = new()
+            {
+                RoomId = roomDto.Id,
+                StartDateTime = startDateTime.AddMinutes(5),
+                EndDateTime = endDateTime
+            };
+
+            // Act
+
+            // Assert
+            Assert.True(false);
+        }
+
+        [Fact]
+        public async Task AddBooking_WhenRoomIsBooked_ShouldThrowException()
+        {
+            // Arrange
+            string roomName = "TestRoom";
+            await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName });
+            RoomDto roomDto = await _bookingService.GetRoomByNameAsync(roomName);
+            DateTime startDateTime = DateTime.Now.AddHours(1);
+            DateTime endDateTime = DateTime.Now.AddHours(2);
+            BookingDto bookingDto1 = new()
+            {
+                RoomId = roomDto.Id,
+                StartDateTime = startDateTime,
+                EndDateTime = endDateTime
+            };
+            BookingDto bookingDto2 = new()
+            {
+                RoomId = roomDto.Id,
+                StartDateTime = startDateTime.AddMinutes(5),
+                EndDateTime = endDateTime
+            };
+            await _bookingService.AddBookingAsync(bookingDto1);
+
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _bookingService.AddBookingAsync(bookingDto2));
         }
     }
 }

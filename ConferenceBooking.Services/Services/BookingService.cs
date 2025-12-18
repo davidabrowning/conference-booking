@@ -1,5 +1,6 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
+using ConferenceBooking.Core.Messages;
 using ConferenceBooking.Core.Models;
 using ConferenceBooking.Services.Mappers;
 
@@ -16,8 +17,22 @@ namespace ConferenceBooking.Services.Services
             _roomRepository = roomRepository;
         }
 
+        public async Task<bool> IsAvailable(BookingDto bookingDto)
+        {
+            Room? room = await _roomRepository.GetByIdAsync(bookingDto.RoomId);
+            if (room == null)
+                throw new InvalidOperationException(ErrorMessages.RoomIsNull);
+            return !(await _bookingRepository.GetAllAsync())
+                .Where(b => b.RoomId == room.Id)
+                .Where(b => b.StartDateTime < bookingDto.EndDateTime)
+                .Where(b => b.EndDateTime > bookingDto.StartDateTime)
+                .Any();
+        }
+
         public async Task AddBookingAsync(BookingDto bookingDto)
         {
+            if (!await IsAvailable(bookingDto))
+                throw new InvalidOperationException(ErrorMessages.RoomIsBooked);
             await _bookingRepository.AddAsync(BookingMapper.ToModel(bookingDto));
         }
 
