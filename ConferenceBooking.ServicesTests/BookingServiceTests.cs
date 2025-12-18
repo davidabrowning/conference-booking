@@ -53,18 +53,24 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto1 = new()
             {
                 RoomId = roomDto1.Id,
-                StartDateTime = DateTime.Now,
-                EndDateTime = DateTime.Now
+                StartDateTime = DateTime.Now.AddHours(1),
+                EndDateTime = DateTime.Now.AddHours(2)
             };
             BookingDto bookingDto2 = new()
             {
-                RoomId = roomDto2.Id,
-                StartDateTime = DateTime.Now,
-                EndDateTime = DateTime.Now
+                RoomId = roomDto1.Id,
+                StartDateTime = DateTime.Now.AddHours(3),
+                EndDateTime = DateTime.Now.AddHours(4)
             };
-            for (int i = 0; i < expectedCount; i++)
-                await _bookingService.AddBookingAsync(bookingDto1);
+            BookingDto bookingDto3 = new()
+            {
+                RoomId = roomDto2.Id,
+                StartDateTime = DateTime.Now.AddHours(5),
+                EndDateTime = DateTime.Now.AddHours(6)
+            };
+            await _bookingService.AddBookingAsync(bookingDto1);
             await _bookingService.AddBookingAsync(bookingDto2);
+            await _bookingService.AddBookingAsync(bookingDto3);
 
             // Act
             IEnumerable<BookingDto> bookingDtos = await _bookingService.GetBookingsByRoomAsync(roomDto1);
