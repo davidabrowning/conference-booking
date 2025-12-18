@@ -86,25 +86,17 @@ namespace ConferenceBooking.ServicesTests
             string roomName = "TestRoom";
             await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName });
             RoomDto roomDto = await _bookingService.GetRoomByNameAsync(roomName);
-            DateTime startDateTime = DateTime.Now.AddHours(1);
-            DateTime endDateTime = DateTime.Now.AddHours(2);
             BookingDto bookingDto1 = new()
             {
                 RoomId = roomDto.Id,
-                StartDateTime = startDateTime,
-                EndDateTime = endDateTime
-            };
-            BookingDto bookingDto2 = new()
-            {
-                RoomId = roomDto.Id,
-                StartDateTime = startDateTime.AddMinutes(5),
-                EndDateTime = endDateTime
+                StartDateTime = DateTime.Now.AddHours(2),
+                EndDateTime = DateTime.Now.AddHours(1)
             };
 
             // Act
 
             // Assert
-            Assert.True(false);
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _bookingService.AddBookingAsync(bookingDto1));
         }
 
         [Fact]

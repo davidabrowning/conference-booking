@@ -31,6 +31,8 @@ namespace ConferenceBooking.Services.Services
 
         public async Task AddBookingAsync(BookingDto bookingDto)
         {
+            if (bookingDto.EndDateTime <= bookingDto.StartDateTime)
+                throw new InvalidOperationException(ErrorMessages.BookingEndIsBeforeStart);
             if (!await IsAvailable(bookingDto))
                 throw new InvalidOperationException(ErrorMessages.RoomIsBooked);
             await _bookingRepository.AddAsync(BookingMapper.ToModel(bookingDto));
