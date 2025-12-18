@@ -1,0 +1,6 @@
+LAYER						INPUT		OUTPUT			IF ERROR
+App (controllers)			-			Dtos			Display error message
+WebApi (controllers)		Dtos		Dtos			HTTP status
+Services (services)			Dtos		Models			Throw exception
+Data (repos)				Models		-				Return null
+Core (models)				-			-				-
