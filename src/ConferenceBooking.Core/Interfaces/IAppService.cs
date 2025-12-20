@@ -5,21 +5,21 @@ namespace ConferenceBooking.Core.Interfaces
     public interface IAppService
     {
         // ApplicationUser
-        Task<IEnumerable<ApplicationUserDto>> GetAllApplicationUsersAsync();
-        Task AddApplicationUserAsync(ApplicationUserDto applicationUserDto);
-        Task<ApplicationUserDto> GetApplicationUserById(int applicationUserId);
-        Task<ApplicationUserDto> GetApplicationUserByUsername(string username);
+        Task<IEnumerable<ApplicationUserDto>> GetUsersAsync();
+        Task AddUserAsync(ApplicationUserDto applicationUserDto);
+        Task<ApplicationUserDto> GetUserByIdAsync(int applicationUserId);
+        Task<ApplicationUserDto> GetUserByUsernameAsync(string username);
 
         // Bookings
-        Task<IEnumerable<BookingDto>> GetAllBookingsAsync();
+        Task<IEnumerable<BookingDto>> GetBookingsAsync();
         Task AddBookingAsync(BookingDto bookingDto);
         Task<BookingDto> GetBookingByIdAsync(int bookingId);
         Task<IEnumerable<BookingDto>> GetBookingsByRoomAsync(RoomDto roomDto1);
 
         // Rooms
-        Task<IEnumerable<RoomDto>> GetAllRoomsAsync();
+        Task<IEnumerable<RoomDto>> GetRoomsAsync();
         Task AddRoomAsync(RoomDto roomDto);
-        Task<RoomDto> GetRoomById(int roomId);
+        Task<RoomDto> GetRoomByIdAsync(int roomId);
         Task<RoomDto> GetRoomByNameAsync(string roomName);
     }
 }

@@ -21,7 +21,7 @@ namespace ConferenceBooking.ServicesTests
         public async Task AddBooking_WhenCalledOnce_ShouldIncreaseNumberOfBookingsByOne()
         {
             // Arrange
-            int expectedCount = (await _appService.GetAllBookingsAsync()).Count() + 1;
+            int expectedCount = (await _appService.GetBookingsAsync()).Count() + 1;
             string roomName = "Room1";
             await _appService.AddRoomAsync(new RoomDto() { Name = roomName });
             RoomDto roomDto = await _appService.GetRoomByNameAsync("Room1");
@@ -37,7 +37,7 @@ namespace ConferenceBooking.ServicesTests
             await _appService.AddBookingAsync(bookingDto);
 
             // Assert
-            Assert.Equal(expectedCount, (await _appService.GetAllBookingsAsync()).Count());
+            Assert.Equal(expectedCount, (await _appService.GetBookingsAsync()).Count());
         }
 
         [Fact]
@@ -151,11 +151,11 @@ namespace ConferenceBooking.ServicesTests
         {
             // Arrange
             string applicationUsername = "User" + DateTime.Now + Guid.NewGuid();
-            await _appService.AddApplicationUserAsync(new ApplicationUserDto() { Username = applicationUsername });
+            await _appService.AddUserAsync(new ApplicationUserDto() { Username = applicationUsername });
 
             // Ac & assert
             await Assert.ThrowsAsync<InvalidOperationException>(async ()
-                => await _appService.AddApplicationUserAsync(new ApplicationUserDto() { Username = applicationUsername }));
+                => await _appService.AddUserAsync(new ApplicationUserDto() { Username = applicationUsername }));
         }
     }
 }

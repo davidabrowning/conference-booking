@@ -27,7 +27,7 @@ namespace ConferenceBooking.IntegrationTests
             IEnumerable<BookingDto> bookingDtos;
 
             // Act
-            bookingDtos = await _appService.GetAllBookingsAsync();
+            bookingDtos = await _appService.GetBookingsAsync();
 
             // Assert
             Assert.NotNull(bookingDtos);
