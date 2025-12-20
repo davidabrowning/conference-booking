@@ -1,4 +1,5 @@
-﻿using ConferenceBooking.Core.Interfaces;
+﻿using ConferenceBooking.Core.Dtos;
+using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Data;
 using ConferenceBooking.Data.Repositories;
 using ConferenceBooking.Services.Services;
@@ -8,11 +9,10 @@ namespace ConferenceBooking.IntegrationTests
 {
     public class IntegrationTests
     {
+        private readonly IBookingService _bookingService;
 
-        [Fact]
-        public async Task GetAllBookings_WhenCalled_IsNotNull()
+        public IntegrationTests()
         {
-            // Arrange
             string testDbConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ConfBookingTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
             DbContextOptions<ApplicationDbContext> dbContextOptions
                 = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -22,10 +22,16 @@ namespace ConferenceBooking.IntegrationTests
             applicationDbContext.Database.Migrate();
             IBookingRepository bookingRepository = new BookingRepository(applicationDbContext);
             IRoomRepository roomRepository = new RoomRepository(applicationDbContext);
-            IBookingService bookingService = new BookingService(bookingRepository, roomRepository);
+            _bookingService = new BookingService(bookingRepository, roomRepository);
+        }
+
+        [Fact]
+        public async Task GetAllBookings_WhenCalled_IsNotNull()
+        {
+            // Arrange
 
             // Act
-            var result = await bookingService.GetAllBookingsAsync();
+            IEnumerable<BookingDto> result = await _bookingService.GetAllBookingsAsync();
 
             // Assert
             Assert.NotNull(result);
