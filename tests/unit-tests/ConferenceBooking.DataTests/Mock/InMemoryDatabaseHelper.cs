@@ -5,7 +5,6 @@ namespace ConferenceBooking.DataTests.Mock
 {
     public static class InMemoryDatabaseHelper
     {
-        private static ApplicationDbContext contextSingleton;
         public static ApplicationDbContext CreateApplicationDbContext()
         {
             ApplicationDbContextCreator applicationDbContextCreator = new();
