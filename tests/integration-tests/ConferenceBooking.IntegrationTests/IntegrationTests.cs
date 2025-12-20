@@ -26,12 +26,13 @@ namespace ConferenceBooking.IntegrationTests
         public async Task GetAllBookings_WhenCalled_IsNotNull()
         {
             // Arrange
+            IEnumerable<BookingDto> bookingDtos;
 
             // Act
-            IEnumerable<BookingDto> result = await _bookingService.GetAllBookingsAsync();
+            bookingDtos = await _bookingService.GetAllBookingsAsync();
 
             // Assert
-            Assert.NotNull(result);
+            Assert.NotNull(bookingDtos);
         }
 
         [Fact]
