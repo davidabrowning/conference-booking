@@ -11,8 +11,8 @@ namespace ConferenceBooking.DataTests
 
         public RoomRepositoryTests()
         {
-            _roomRepository = new RoomRepository(InMemoryDatabaseHelper
-                .CreateApplicationDbContext());
+            _roomRepository = new RoomRepository(
+                InMemoryDatabaseHelper.CreateApplicationDbContext());
         }
 
         [Fact]
