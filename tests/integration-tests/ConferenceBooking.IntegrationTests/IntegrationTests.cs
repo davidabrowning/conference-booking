@@ -8,7 +8,7 @@ namespace ConferenceBooking.IntegrationTests
 {
     public class IntegrationTests
     {
-        private readonly IBookingService _bookingService;
+        private readonly IAppService _bookingService;
 
         public IntegrationTests()
         {

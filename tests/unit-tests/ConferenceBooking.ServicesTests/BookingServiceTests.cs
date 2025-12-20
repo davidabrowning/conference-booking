@@ -7,7 +7,7 @@ namespace ConferenceBooking.ServicesTests
 {
     public class BookingServiceTests
     {
-        private readonly IBookingService _bookingService;
+        private readonly IAppService _bookingService;
 
         public BookingServiceTests()
         {

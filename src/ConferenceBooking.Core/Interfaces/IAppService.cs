@@ -2,7 +2,7 @@
 
 namespace ConferenceBooking.Core.Interfaces
 {
-    public interface IBookingService
+    public interface IAppService
     {
         // ApplicationUser
         Task<IEnumerable<ApplicationUserDto>> GetAllApplicationUsersAsync();

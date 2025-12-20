@@ -6,7 +6,7 @@ using ConferenceBooking.Services.Mappers;
 
 namespace ConferenceBooking.Services.Services
 {
-    public class BookingService : IBookingService
+    public class BookingService : IAppService
     {
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IBookingRepository _bookingRepository;
