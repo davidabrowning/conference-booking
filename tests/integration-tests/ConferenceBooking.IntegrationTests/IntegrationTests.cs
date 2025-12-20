@@ -24,22 +24,24 @@ namespace ConferenceBooking.IntegrationTests
         public async Task GetAllBookings_WhenCalled_IsNotNull()
         {
             // Arrange
-            IEnumerable<BookingDto> result;
 
             // Act
-            result = await _bookingService.GetAllBookingsAsync();
+            IEnumerable<BookingDto> result = await _bookingService.GetAllBookingsAsync();
 
             // Assert
             Assert.NotNull(result);
         }
 
         [Fact]
-        public async Task GetRoom_WhenNoRoomsYet_ShouldThrowException()
+        public async Task Room_Initially_ShouldShouldNotExistInDatabase()
         {
             // Arrange
             string roomName = "TestRoom";
 
-            // Act and assert
+            // Act
+            
+
+            // Assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () 
                 => await _bookingService.GetRoomByNameAsync(roomName));
         }
