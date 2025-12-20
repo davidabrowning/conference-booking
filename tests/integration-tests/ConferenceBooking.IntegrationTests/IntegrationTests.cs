@@ -19,6 +19,7 @@ namespace ConferenceBooking.IntegrationTests
                 .UseSqlServer(testDbConnectionString)
                 .Options;
             ApplicationDbContext applicationDbContext = new(dbContextOptions);
+            applicationDbContext.Database.Migrate();
             IBookingRepository bookingRepository = new BookingRepository(applicationDbContext);
             IRoomRepository roomRepository = new RoomRepository(applicationDbContext);
             IBookingService bookingService = new BookingService(bookingRepository, roomRepository);
