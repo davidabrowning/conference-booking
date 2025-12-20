@@ -15,17 +15,8 @@ namespace ConferenceBooking.IntegrationTests
 
         public IntegrationTests()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.test.json")
-                .Build();
-            string testDbConnectionString = configuration.GetConnectionString("IntegrationTestsDatabase") ?? string.Empty;
-
-            DbContextOptions<ApplicationDbContext> dbContextOptions
-                = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer(testDbConnectionString)
-                .Options;
-            ApplicationDbContext applicationDbContext = new(dbContextOptions);
-            applicationDbContext.Database.Migrate();
+            ApplicationDbContext applicationDbContext = IntegrationTestHelper.CreateContext();
+            IntegrationTestHelper.UpdateDatabase(applicationDbContext);
             IBookingRepository bookingRepository = new BookingRepository(applicationDbContext);
             IRoomRepository roomRepository = new RoomRepository(applicationDbContext);
             _bookingService = new BookingService(bookingRepository, roomRepository);
