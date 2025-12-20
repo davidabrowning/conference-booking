@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConferenceBooking.Core\ConferenceBooking.Core.csproj" />
-    <ProjectReference Include="..\ConferenceBooking.Services\ConferenceBooking.Services.csproj" />
+    <ProjectReference Include="..\..\..\src\ConferenceBooking.Core\ConferenceBooking.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\ConferenceBooking.Services\ConferenceBooking.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
