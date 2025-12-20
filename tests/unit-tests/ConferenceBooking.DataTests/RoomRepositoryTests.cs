@@ -1,7 +1,7 @@
 ﻿using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Core.Models;
 using ConferenceBooking.Data.Repositories;
-using ConferenceBooking.DataTests.Mock;
+using ConferenceBooking.DataTests.FakeDatabases;
 
 namespace ConferenceBooking.DataTests
 {
@@ -11,8 +11,8 @@ namespace ConferenceBooking.DataTests
 
         public RoomRepositoryTests()
         {
-            _roomRepository = new RoomRepository(InMemoryDatabaseHelper
-                .CreateApplicationDbContext());
+            _roomRepository = new RoomRepository(
+                InMemoryDatabaseHelper.CreateApplicationDbContext());
         }
 
         [Fact]

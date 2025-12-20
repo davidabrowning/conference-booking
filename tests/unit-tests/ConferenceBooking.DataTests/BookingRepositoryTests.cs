@@ -1,7 +1,7 @@
 ﻿using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Core.Models;
 using ConferenceBooking.Data.Repositories;
-using ConferenceBooking.DataTests.Mock;
+using ConferenceBooking.DataTests.FakeDatabases;
 
 namespace ConferenceBooking.DataTests
 {
@@ -23,6 +23,7 @@ namespace ConferenceBooking.DataTests
             // Arrange
             Booking booking = new() { 
                 RoomId = 1,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now,
                 EndDateTime = DateTime.Now
             };
@@ -56,6 +57,7 @@ namespace ConferenceBooking.DataTests
             Booking booking = new()
             {
                 RoomId = 1,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now,
                 EndDateTime = DateTime.Now
             };

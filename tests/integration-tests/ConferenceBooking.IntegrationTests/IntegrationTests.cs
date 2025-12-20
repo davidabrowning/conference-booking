@@ -14,9 +14,10 @@ namespace ConferenceBooking.IntegrationTests
         {
             ApplicationDbContext applicationDbContext = IntegrationTestHelper.CreateContext();
             IntegrationTestHelper.UpdateDatabase(applicationDbContext);
+            IApplicationUserRepository applicationUserRepository = new ApplicationUserRepository(applicationDbContext);
             IBookingRepository bookingRepository = new BookingRepository(applicationDbContext);
             IRoomRepository roomRepository = new RoomRepository(applicationDbContext);
-            _bookingService = new BookingService(bookingRepository, roomRepository);
+            _bookingService = new BookingService(applicationUserRepository, bookingRepository, roomRepository);
         }
 
         [Fact]
@@ -57,6 +58,7 @@ namespace ConferenceBooking.IntegrationTests
             BookingDto bookingDto = new()
             {
                 RoomId = createdRoomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddSeconds(1),
                 EndDateTime = DateTime.Now.AddSeconds(2),
             };
@@ -79,6 +81,7 @@ namespace ConferenceBooking.IntegrationTests
             BookingDto bookingDto = new()
             {
                 RoomId = createdRoomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddSeconds(1),
                 EndDateTime = DateTime.Now.AddSeconds(2),
             };

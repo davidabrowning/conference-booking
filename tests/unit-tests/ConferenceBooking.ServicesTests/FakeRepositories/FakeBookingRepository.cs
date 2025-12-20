@@ -1,7 +1,7 @@
 ﻿using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Core.Models;
 
-namespace ConferenceBooking.ServicesTests.Mock
+namespace ConferenceBooking.ServicesTests.FakeRepositories
 {
     public class FakeBookingRepository : IBookingRepository
     {

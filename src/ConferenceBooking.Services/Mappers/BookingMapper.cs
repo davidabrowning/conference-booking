@@ -10,6 +10,7 @@ namespace ConferenceBooking.Services.Mappers
             BookingDto dto = new() { 
                 Id = booking.Id,
                 RoomId = booking.RoomId,
+                ApplicationUserId = booking.ApplicationUserId,
                 StartDateTime = booking.StartDateTime,
                 EndDateTime = booking.EndDateTime
             };
@@ -22,6 +23,7 @@ namespace ConferenceBooking.Services.Mappers
             {
                 Id = dto.Id,
                 RoomId = dto.RoomId,
+                ApplicationUserId = dto.ApplicationUserId,
                 StartDateTime = dto.StartDateTime,
                 EndDateTime = dto.EndDateTime
             };

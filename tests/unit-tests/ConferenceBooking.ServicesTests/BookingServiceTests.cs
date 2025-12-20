@@ -1,7 +1,7 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Services.Services;
-using ConferenceBooking.ServicesTests.Mock;
+using ConferenceBooking.ServicesTests.FakeRepositories;
 
 namespace ConferenceBooking.ServicesTests
 {
@@ -11,9 +11,10 @@ namespace ConferenceBooking.ServicesTests
 
         public BookingServiceTests()
         {
+            IApplicationUserRepository fakeApplicationUserRepository = new FakeApplicationUserRepository();
             IBookingRepository fakeBookingRepository = new FakeBookingRepository();
             IRoomRepository fakeRoomRepository = new FakeRoomRepository();
-            _bookingService = new BookingService(fakeBookingRepository, fakeRoomRepository);
+            _bookingService = new BookingService(fakeApplicationUserRepository, fakeBookingRepository, fakeRoomRepository);
         }
 
         [Fact]
@@ -27,6 +28,7 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto = new()
             {
                 RoomId = roomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now,
                 EndDateTime = DateTime.Now
             };
@@ -52,18 +54,21 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto1 = new()
             {
                 RoomId = roomDto1.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddHours(1),
                 EndDateTime = DateTime.Now.AddHours(2)
             };
             BookingDto bookingDto2 = new()
             {
                 RoomId = roomDto1.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddHours(3),
                 EndDateTime = DateTime.Now.AddHours(4)
             };
             BookingDto bookingDto3 = new()
             {
                 RoomId = roomDto2.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddHours(5),
                 EndDateTime = DateTime.Now.AddHours(6)
             };
@@ -88,6 +93,7 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto1 = new()
             {
                 RoomId = roomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddHours(2),
                 EndDateTime = DateTime.Now.AddHours(1)
             };
@@ -110,12 +116,14 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto1 = new()
             {
                 RoomId = roomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = startDateTime,
                 EndDateTime = endDateTime
             };
             BookingDto bookingDto2 = new()
             {
                 RoomId = roomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = startDateTime.AddMinutes(5),
                 EndDateTime = endDateTime
             };
@@ -136,6 +144,18 @@ namespace ConferenceBooking.ServicesTests
             // Ac & assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () 
                 => await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName }));
+        }
+
+        [Fact]
+        public async Task AddApplicationUser_WhenUsernameAlreadyExists_ThrowsException()
+        {
+            // Arrange
+            string applicationUsername = "User" + DateTime.Now + Guid.NewGuid();
+            await _bookingService.AddApplicationUserAsync(new ApplicationUserDto() { Username = applicationUsername });
+
+            // Ac & assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async ()
+                => await _bookingService.AddApplicationUserAsync(new ApplicationUserDto() { Username = applicationUsername }));
         }
     }
 }
