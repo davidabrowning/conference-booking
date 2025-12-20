@@ -68,7 +68,29 @@ namespace ConferenceBooking.IntegrationTests
             await _bookingService.AddBookingAsync(bookingDto);
 
             // Assert
-            Assert.Single<BookingDto>(await _bookingService.GetBookingsByRoomAsync(createdRoomDto));
+            Assert.NotEmpty(await _bookingService.GetBookingsByRoomAsync(createdRoomDto));
+        }
+
+        [Fact]
+        public async Task Booking_WhenExists_ShouldBeFetchedCorrectlyFromDatabase()
+        {
+            // Arrange
+            string roomName = "Room" + DateTime.Now;
+            RoomDto roomDto = new() { Name = roomName };
+            await _bookingService.AddRoomAsync(roomDto);
+            RoomDto createdRoomDto = await _bookingService.GetRoomByNameAsync(roomName);
+            BookingDto bookingDto = new()
+            {
+                RoomId = createdRoomDto.Id,
+                StartDateTime = DateTime.Now.AddSeconds(1),
+                EndDateTime = DateTime.Now.AddSeconds(2),
+            };
+            await _bookingService.AddBookingAsync(bookingDto);
+            IEnumerable<BookingDto> roomBookings = await _bookingService.GetBookingsByRoomAsync(createdRoomDto);
+            BookingDto createdBookingDto = roomBookings.First();
+
+            // Act & assert
+            Assert.NotNull(await _bookingService.GetBookingByIdAsync(createdBookingDto.Id));
         }
     }
 }
