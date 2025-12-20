@@ -8,7 +8,7 @@ namespace ConferenceBooking.IntegrationTests
 {
     public class IntegrationTests
     {
-        private readonly IAppService _bookingService;
+        private readonly IAppService _appService;
 
         public IntegrationTests()
         {
@@ -17,7 +17,7 @@ namespace ConferenceBooking.IntegrationTests
             IApplicationUserRepository applicationUserRepository = new ApplicationUserRepository(applicationDbContext);
             IBookingRepository bookingRepository = new BookingRepository(applicationDbContext);
             IRoomRepository roomRepository = new RoomRepository(applicationDbContext);
-            _bookingService = new AppService(applicationUserRepository, bookingRepository, roomRepository);
+            _appService = new AppService(applicationUserRepository, bookingRepository, roomRepository);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace ConferenceBooking.IntegrationTests
             IEnumerable<BookingDto> bookingDtos;
 
             // Act
-            bookingDtos = await _bookingService.GetAllBookingsAsync();
+            bookingDtos = await _appService.GetAllBookingsAsync();
 
             // Assert
             Assert.NotNull(bookingDtos);
@@ -41,10 +41,10 @@ namespace ConferenceBooking.IntegrationTests
             RoomDto newRoomDto = new() { Name = roomName };
 
             // Act
-            await _bookingService.AddRoomAsync(newRoomDto);
+            await _appService.AddRoomAsync(newRoomDto);
 
             // Assert
-            Assert.NotNull(await _bookingService.GetRoomByNameAsync(newRoomDto.Name));
+            Assert.NotNull(await _appService.GetRoomByNameAsync(newRoomDto.Name));
         }
 
         [Fact]
@@ -53,8 +53,8 @@ namespace ConferenceBooking.IntegrationTests
             // Arrange
             string roomName = "Room" + DateTime.Now + Guid.NewGuid(); 
             RoomDto roomDto = new() { Name = roomName };
-            await _bookingService.AddRoomAsync(roomDto);
-            RoomDto createdRoomDto = await _bookingService.GetRoomByNameAsync(roomName);
+            await _appService.AddRoomAsync(roomDto);
+            RoomDto createdRoomDto = await _appService.GetRoomByNameAsync(roomName);
             BookingDto bookingDto = new()
             {
                 RoomId = createdRoomDto.Id,
@@ -64,10 +64,10 @@ namespace ConferenceBooking.IntegrationTests
             };
 
             // Act
-            await _bookingService.AddBookingAsync(bookingDto);
+            await _appService.AddBookingAsync(bookingDto);
 
             // Assert
-            Assert.NotEmpty(await _bookingService.GetBookingsByRoomAsync(createdRoomDto));
+            Assert.NotEmpty(await _appService.GetBookingsByRoomAsync(createdRoomDto));
         }
 
         [Fact]
@@ -76,8 +76,8 @@ namespace ConferenceBooking.IntegrationTests
             // Arrange
             string roomName = "Room" + DateTime.Now + Guid.NewGuid();
             RoomDto roomDto = new() { Name = roomName };
-            await _bookingService.AddRoomAsync(roomDto);
-            RoomDto createdRoomDto = await _bookingService.GetRoomByNameAsync(roomName);
+            await _appService.AddRoomAsync(roomDto);
+            RoomDto createdRoomDto = await _appService.GetRoomByNameAsync(roomName);
             BookingDto bookingDto = new()
             {
                 RoomId = createdRoomDto.Id,
@@ -85,12 +85,12 @@ namespace ConferenceBooking.IntegrationTests
                 StartDateTime = DateTime.Now.AddSeconds(1),
                 EndDateTime = DateTime.Now.AddSeconds(2),
             };
-            await _bookingService.AddBookingAsync(bookingDto);
-            IEnumerable<BookingDto> roomBookings = await _bookingService.GetBookingsByRoomAsync(createdRoomDto);
+            await _appService.AddBookingAsync(bookingDto);
+            IEnumerable<BookingDto> roomBookings = await _appService.GetBookingsByRoomAsync(createdRoomDto);
             BookingDto createdBookingDto = roomBookings.First();
 
             // Act & assert
-            Assert.NotNull(await _bookingService.GetBookingByIdAsync(createdBookingDto.Id));
+            Assert.NotNull(await _appService.GetBookingByIdAsync(createdBookingDto.Id));
         }
     }
 }
