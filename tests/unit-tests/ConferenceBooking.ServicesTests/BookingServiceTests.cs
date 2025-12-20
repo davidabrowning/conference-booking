@@ -2,7 +2,6 @@
 using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Services.Services;
 using ConferenceBooking.ServicesTests.Mock;
-using System.Threading.Tasks;
 
 namespace ConferenceBooking.ServicesTests
 {
@@ -122,10 +121,21 @@ namespace ConferenceBooking.ServicesTests
             };
             await _bookingService.AddBookingAsync(bookingDto1);
 
-            // Act
+            // Act & assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () 
+                => await _bookingService.AddBookingAsync(bookingDto2));
+        }
 
-            // Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _bookingService.AddBookingAsync(bookingDto2));
+        [Fact]
+        public async Task AddRoom_WhenNameAlreadyExists_ThrowsException()
+        {
+            // Arrange
+            string roomName = "Room" + DateTime.Now + Guid.NewGuid();
+            await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName });
+
+            // Ac & assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () 
+                => await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName }));
         }
     }
 }
