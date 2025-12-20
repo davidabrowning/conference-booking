@@ -1,8 +1,11 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
+using ConferenceBooking.Core.Models;
 using ConferenceBooking.Data;
 using ConferenceBooking.Data.Repositories;
 using ConferenceBooking.Services.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ConferenceBooking.IntegrationTests
 {
@@ -12,12 +15,28 @@ namespace ConferenceBooking.IntegrationTests
 
         public IntegrationTests()
         {
-            ApplicationDbContext applicationDbContext = IntegrationTestsHelper.CreateDbContextForIntegrationTests();
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.test.json")
+                .Build();
+            string testDbConnectionString = configuration.GetConnectionString("IntegrationTestsDatabase") ?? string.Empty;
+
+            // string testDbConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ConfBookingTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+            DbContextOptions<ApplicationDbContext> dbContextOptions
+                = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer(testDbConnectionString)
+                .Options;
+            ApplicationDbContext applicationDbContext = new(dbContextOptions);
+            ResetAndUpdateTestDatabase(applicationDbContext);
             IBookingRepository bookingRepository = new BookingRepository(applicationDbContext);
             IRoomRepository roomRepository = new RoomRepository(applicationDbContext);
             _bookingService = new BookingService(bookingRepository, roomRepository);
+        }
 
-            IntegrationTestsHelper.ResetAndUpdateTestDatabase(applicationDbContext);
+        private void ResetAndUpdateTestDatabase(ApplicationDbContext applicationDbContext)
+        {
+            try { applicationDbContext.Database.EnsureDeleted(); }
+            catch { }
+            finally { applicationDbContext.Database.Migrate(); }
         }
 
         [Fact]
