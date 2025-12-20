@@ -14,7 +14,7 @@ namespace ConferenceBooking.ServicesTests
             IApplicationUserRepository fakeApplicationUserRepository = new FakeApplicationUserRepository();
             IBookingRepository fakeBookingRepository = new FakeBookingRepository();
             IRoomRepository fakeRoomRepository = new FakeRoomRepository();
-            _bookingService = new BookingService(fakeApplicationUserRepository, fakeBookingRepository, fakeRoomRepository);
+            _bookingService = new AppService(fakeApplicationUserRepository, fakeBookingRepository, fakeRoomRepository);
         }
 
         [Fact]

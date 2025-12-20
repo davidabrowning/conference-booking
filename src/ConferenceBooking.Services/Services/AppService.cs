@@ -6,13 +6,13 @@ using ConferenceBooking.Services.Mappers;
 
 namespace ConferenceBooking.Services.Services
 {
-    public class BookingService : IAppService
+    public class AppService : IAppService
     {
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IBookingRepository _bookingRepository;
         private readonly IRoomRepository _roomRepository;
 
-        public BookingService(IApplicationUserRepository applicationUserRepository, IBookingRepository bookingRepository, IRoomRepository roomRepository)
+        public AppService(IApplicationUserRepository applicationUserRepository, IBookingRepository bookingRepository, IRoomRepository roomRepository)
         {
             _applicationUserRepository = applicationUserRepository;
             _bookingRepository = bookingRepository;

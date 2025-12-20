@@ -17,7 +17,7 @@ namespace ConferenceBooking.IntegrationTests
             IApplicationUserRepository applicationUserRepository = new ApplicationUserRepository(applicationDbContext);
             IBookingRepository bookingRepository = new BookingRepository(applicationDbContext);
             IRoomRepository roomRepository = new RoomRepository(applicationDbContext);
-            _bookingService = new BookingService(applicationUserRepository, bookingRepository, roomRepository);
+            _bookingService = new AppService(applicationUserRepository, bookingRepository, roomRepository);
         }
 
         [Fact]
