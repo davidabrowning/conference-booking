@@ -5,6 +5,7 @@ using ConferenceBooking.Data;
 using ConferenceBooking.Data.Repositories;
 using ConferenceBooking.Services.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ConferenceBooking.IntegrationTests
 {
@@ -14,7 +15,12 @@ namespace ConferenceBooking.IntegrationTests
 
         public IntegrationTests()
         {
-            string testDbConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ConfBookingTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.test.json")
+                .Build();
+            string testDbConnectionString = configuration.GetConnectionString("TestDatabase") ?? string.Empty;
+
+            // string testDbConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ConfBookingTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
             DbContextOptions<ApplicationDbContext> dbContextOptions
                 = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseSqlServer(testDbConnectionString)
