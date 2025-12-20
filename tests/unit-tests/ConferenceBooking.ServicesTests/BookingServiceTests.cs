@@ -1,7 +1,7 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Services.Services;
-using ConferenceBooking.ServicesTests.MockData;
+using ConferenceBooking.ServicesTests.FakeRepositories;
 
 namespace ConferenceBooking.ServicesTests
 {
