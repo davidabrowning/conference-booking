@@ -40,6 +40,9 @@ namespace ConferenceBooking.Services.Services
 
         public async Task AddRoomAsync(RoomDto roomDto)
         {
+            Room? preexistingRoom = await _roomRepository.GetByNameAsync(roomDto.Name);
+            if (preexistingRoom != null)
+                throw new InvalidOperationException(ErrorMessages.RoomNameAlreadyExists);
             await _roomRepository.AddAsync(RoomMapper.ToModel(roomDto));
         }
 
