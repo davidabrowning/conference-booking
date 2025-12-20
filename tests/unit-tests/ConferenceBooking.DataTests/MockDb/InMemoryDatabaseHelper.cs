@@ -1,7 +1,7 @@
 ﻿using ConferenceBooking.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConferenceBooking.DataTests.Mock
+namespace ConferenceBooking.DataTests.MockDb
 {
     public static class InMemoryDatabaseHelper
     {

@@ -1,7 +1,7 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Services.Services;
-using ConferenceBooking.ServicesTests.Mock;
+using ConferenceBooking.ServicesTests.MockData;
 
 namespace ConferenceBooking.ServicesTests
 {
@@ -11,9 +11,10 @@ namespace ConferenceBooking.ServicesTests
 
         public BookingServiceTests()
         {
+            IApplicationUserRepository fakeApplicationUserRepository = new FakeApplicationUserRepository();
             IBookingRepository fakeBookingRepository = new FakeBookingRepository();
             IRoomRepository fakeRoomRepository = new FakeRoomRepository();
-            _bookingService = new BookingService(fakeBookingRepository, fakeRoomRepository);
+            _bookingService = new BookingService(fakeApplicationUserRepository, fakeBookingRepository, fakeRoomRepository);
         }
 
         [Fact]

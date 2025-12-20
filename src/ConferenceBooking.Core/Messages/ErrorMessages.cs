@@ -2,6 +2,8 @@
 {
     public class ErrorMessages
     {
+        public const string ApplicationUserIsNull = "Error: Application user is null.";
+        public const string ApplicationUsernameAlreadyExists = "Error: Application username already exists.";
         public const string BookingEndIsBeforeStart = "Error: Booking end time must be after start time.";
         public const string BookingIsNull = "Error: Booking is null.";
         public const string RoomIsBooked = "Error: Room is booked";

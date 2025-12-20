@@ -8,11 +8,13 @@ namespace ConferenceBooking.Services.Services
 {
     public class BookingService : IBookingService
     {
+        private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IBookingRepository _bookingRepository;
         private readonly IRoomRepository _roomRepository;
 
-        public BookingService(IBookingRepository bookingRepository, IRoomRepository roomRepository)
+        public BookingService(IApplicationUserRepository applicationUserRepository, IBookingRepository bookingRepository, IRoomRepository roomRepository)
         {
+            _applicationUserRepository = applicationUserRepository;
             _bookingRepository = bookingRepository;
             _roomRepository = roomRepository;
         }
@@ -74,6 +76,53 @@ namespace ConferenceBooking.Services.Services
             if (booking == null)
                 throw new InvalidOperationException(ErrorMessages.BookingIsNull);
             return BookingMapper.ToDto(booking);
+        }
+
+        public async Task<IEnumerable<ApplicationUserDto>> GetAllApplicationUsersAsync()
+        {
+            List<ApplicationUserDto> applicationUserDtos = new();
+            IEnumerable<ApplicationUser> applicationUsers = await _applicationUserRepository.GetAllAsync();
+            foreach (ApplicationUser applicationUser in applicationUsers)
+                applicationUserDtos.Add(ApplicationUserMapper.ToDto(applicationUser));
+            return applicationUserDtos;
+        }
+
+        public async Task AddApplicationUserAsync(ApplicationUserDto applicationUserDto)
+        {
+            await _applicationUserRepository.AddAsync(ApplicationUserMapper.ToModel(applicationUserDto));
+        }
+
+        public async Task<ApplicationUserDto> GetApplicationUserById(int applicationUserId)
+        {
+            ApplicationUser? applicationUser = await _applicationUserRepository.GetByIdAsync(applicationUserId);
+            if (applicationUser == null)
+                throw new InvalidOperationException(ErrorMessages.ApplicationUserIsNull);
+            return ApplicationUserMapper.ToDto(applicationUser);
+        }
+
+        public async Task<ApplicationUserDto> GetApplicationUserByUsername(string username)
+        {
+            ApplicationUser? applicationUser = await _applicationUserRepository.GetByUsername(username);
+            if (applicationUser == null)
+                throw new InvalidOperationException(ErrorMessages.ApplicationUserIsNull);
+            return ApplicationUserMapper.ToDto(applicationUser);
+        }
+
+        public async Task<IEnumerable<RoomDto>> GetAllRoomsAsync()
+        {
+            List<RoomDto> roomDtos = new();
+            IEnumerable<Room> rooms = await _roomRepository.GetAllAsync();
+            foreach (Room room in rooms)
+                roomDtos.Add(RoomMapper.ToDto(room));
+            return roomDtos;
+        }
+
+        public async Task<RoomDto> GetRoomById(int roomId)
+        {
+            Room? room = await _roomRepository.GetByIdAsync(roomId);
+            if (room == null)
+                throw new InvalidOperationException(ErrorMessages.RoomIsNull);
+            return RoomMapper.ToDto(room);
         }
     }
 }

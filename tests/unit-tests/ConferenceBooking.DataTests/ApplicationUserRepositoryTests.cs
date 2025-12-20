@@ -1,7 +1,7 @@
 ﻿using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Core.Models;
 using ConferenceBooking.Data.Repositories;
-using ConferenceBooking.DataTests.Mock;
+using ConferenceBooking.DataTests.MockDb;
 
 namespace ConferenceBooking.DataTests
 {
