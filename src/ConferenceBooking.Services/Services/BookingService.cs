@@ -40,11 +40,7 @@ namespace ConferenceBooking.Services.Services
 
         public async Task AddRoomAsync(RoomDto roomDto)
         {
-            Room room = new()
-            {
-                Name = roomDto.Name,
-            };
-            await _roomRepository.AddAsync(room);
+            await _roomRepository.AddAsync(RoomMapper.ToModel(roomDto));
         }
 
         public async Task<IEnumerable<BookingDto>> GetAllBookingsAsync()
@@ -66,11 +62,15 @@ namespace ConferenceBooking.Services.Services
             Room? room = await _roomRepository.GetByNameAsync(roomName);
             if (room == null)
                 throw new InvalidOperationException(ErrorMessages.RoomIsNull);
-            RoomDto roomDto = new() { 
-                Id = room.Id,
-                Name = room.Name 
-            };
-            return roomDto;
+            return RoomMapper.ToDto(room);
+        }
+
+        public async Task<BookingDto> GetBookingByIdAsync(int bookingId)
+        {
+            Booking? booking = await _bookingRepository.GetByIdAsync(bookingId);
+            if (booking == null)
+                throw new InvalidOperationException(ErrorMessages.BookingIsNull);
+            return BookingMapper.ToDto(booking);
         }
     }
 }

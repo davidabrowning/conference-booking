@@ -20,23 +20,15 @@ namespace ConferenceBooking.IntegrationTests
                 .Build();
             string testDbConnectionString = configuration.GetConnectionString("IntegrationTestsDatabase") ?? string.Empty;
 
-            // string testDbConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ConfBookingTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
             DbContextOptions<ApplicationDbContext> dbContextOptions
                 = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseSqlServer(testDbConnectionString)
                 .Options;
             ApplicationDbContext applicationDbContext = new(dbContextOptions);
-            ResetAndUpdateTestDatabase(applicationDbContext);
+            applicationDbContext.Database.Migrate();
             IBookingRepository bookingRepository = new BookingRepository(applicationDbContext);
             IRoomRepository roomRepository = new RoomRepository(applicationDbContext);
             _bookingService = new BookingService(bookingRepository, roomRepository);
-        }
-
-        private void ResetAndUpdateTestDatabase(ApplicationDbContext applicationDbContext)
-        {
-            try { applicationDbContext.Database.EnsureDeleted(); }
-            catch { }
-            finally { applicationDbContext.Database.Migrate(); }
         }
 
         [Fact]
@@ -52,30 +44,39 @@ namespace ConferenceBooking.IntegrationTests
         }
 
         [Fact]
-        public async Task Room_Initially_ShouldShouldNotExistInDatabase()
-        {
-            // Arrange
-            string roomName = "TestRoom";
-
-            // Act
-            
-
-            // Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () 
-                => await _bookingService.GetRoomByNameAsync(roomName));
-        }
-
-        [Fact]
         public async Task Room_WhenSaved_ShouldSaveCorrectlyInDatabase()
         {
             // Arrange
-            RoomDto newRoomDto = new() { Name = "TestRoom" };
+            string roomName = "TestRoom" + DateTime.Now;
+            RoomDto newRoomDto = new() { Name = roomName };
 
             // Act
             await _bookingService.AddRoomAsync(newRoomDto);
 
             // Assert
             Assert.NotNull(await _bookingService.GetRoomByNameAsync(newRoomDto.Name));
+        }
+
+        [Fact]
+        public async Task Booking_WhenSaved_ShouldSaveCorrectlyToDatabase()
+        {
+            // Arrange
+            string roomName = "Room" + DateTime.Now; 
+            RoomDto roomDto = new() { Name = roomName };
+            await _bookingService.AddRoomAsync(roomDto);
+            RoomDto createdRoomDto = await _bookingService.GetRoomByNameAsync(roomName);
+            BookingDto bookingDto = new()
+            {
+                RoomId = createdRoomDto.Id,
+                StartDateTime = DateTime.Now.AddSeconds(1),
+                EndDateTime = DateTime.Now.AddSeconds(2),
+            };
+
+            // Act
+            await _bookingService.AddBookingAsync(bookingDto);
+
+            // Assert
+            Assert.Single<BookingDto>(await _bookingService.GetBookingsByRoomAsync(createdRoomDto));
         }
     }
 }

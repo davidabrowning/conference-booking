@@ -6,6 +6,7 @@ namespace ConferenceBooking.Core.Interfaces
     {
         Task<IEnumerable<BookingDto>> GetAllBookingsAsync();
         Task AddBookingAsync(BookingDto bookingDto);
+        Task<BookingDto> GetBookingByIdAsync(int bookingId);
         Task<IEnumerable<BookingDto>> GetBookingsByRoomAsync(RoomDto roomDto1);
         Task AddRoomAsync(RoomDto roomDto);
         Task<RoomDto> GetRoomByNameAsync(string roomName);
