@@ -6,13 +6,13 @@ using ConferenceBooking.Services.Mappers;
 
 namespace ConferenceBooking.Services.Services
 {
-    public class BookingService : IBookingService
+    public class AppService : IAppService
     {
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IBookingRepository _bookingRepository;
         private readonly IRoomRepository _roomRepository;
 
-        public BookingService(IApplicationUserRepository applicationUserRepository, IBookingRepository bookingRepository, IRoomRepository roomRepository)
+        public AppService(IApplicationUserRepository applicationUserRepository, IBookingRepository bookingRepository, IRoomRepository roomRepository)
         {
             _applicationUserRepository = applicationUserRepository;
             _bookingRepository = bookingRepository;
@@ -48,7 +48,7 @@ namespace ConferenceBooking.Services.Services
             await _roomRepository.AddAsync(RoomMapper.ToModel(roomDto));
         }
 
-        public async Task<IEnumerable<BookingDto>> GetAllBookingsAsync()
+        public async Task<IEnumerable<BookingDto>> GetBookingsAsync()
         {
             List<BookingDto> bookingDtos = new();
             IEnumerable<Booking> bookings = await _bookingRepository.GetAllAsync();
@@ -59,7 +59,7 @@ namespace ConferenceBooking.Services.Services
 
         public async Task<IEnumerable<BookingDto>> GetBookingsByRoomAsync(RoomDto roomDto1)
         {
-            return (await GetAllBookingsAsync()).Where(b => b.RoomId == roomDto1.Id);
+            return (await GetBookingsAsync()).Where(b => b.RoomId == roomDto1.Id);
         }
 
         public async Task<RoomDto> GetRoomByNameAsync(string roomName)
@@ -78,7 +78,7 @@ namespace ConferenceBooking.Services.Services
             return BookingMapper.ToDto(booking);
         }
 
-        public async Task<IEnumerable<ApplicationUserDto>> GetAllApplicationUsersAsync()
+        public async Task<IEnumerable<ApplicationUserDto>> GetUsersAsync()
         {
             List<ApplicationUserDto> applicationUserDtos = new();
             IEnumerable<ApplicationUser> applicationUsers = await _applicationUserRepository.GetAllAsync();
@@ -87,7 +87,7 @@ namespace ConferenceBooking.Services.Services
             return applicationUserDtos;
         }
 
-        public async Task AddApplicationUserAsync(ApplicationUserDto applicationUserDto)
+        public async Task AddUserAsync(ApplicationUserDto applicationUserDto)
         {
             ApplicationUser? applicationUser = await _applicationUserRepository.GetByUsername(applicationUserDto.Username);
             if (applicationUser != null)
@@ -95,7 +95,7 @@ namespace ConferenceBooking.Services.Services
             await _applicationUserRepository.AddAsync(ApplicationUserMapper.ToModel(applicationUserDto));
         }
 
-        public async Task<ApplicationUserDto> GetApplicationUserById(int applicationUserId)
+        public async Task<ApplicationUserDto> GetUserByIdAsync(int applicationUserId)
         {
             ApplicationUser? applicationUser = await _applicationUserRepository.GetByIdAsync(applicationUserId);
             if (applicationUser == null)
@@ -103,7 +103,7 @@ namespace ConferenceBooking.Services.Services
             return ApplicationUserMapper.ToDto(applicationUser);
         }
 
-        public async Task<ApplicationUserDto> GetApplicationUserByUsername(string username)
+        public async Task<ApplicationUserDto> GetUserByUsernameAsync(string username)
         {
             ApplicationUser? applicationUser = await _applicationUserRepository.GetByUsername(username);
             if (applicationUser == null)
@@ -111,7 +111,7 @@ namespace ConferenceBooking.Services.Services
             return ApplicationUserMapper.ToDto(applicationUser);
         }
 
-        public async Task<IEnumerable<RoomDto>> GetAllRoomsAsync()
+        public async Task<IEnumerable<RoomDto>> GetRoomsAsync()
         {
             List<RoomDto> roomDtos = new();
             IEnumerable<Room> rooms = await _roomRepository.GetAllAsync();
@@ -120,7 +120,7 @@ namespace ConferenceBooking.Services.Services
             return roomDtos;
         }
 
-        public async Task<RoomDto> GetRoomById(int roomId)
+        public async Task<RoomDto> GetRoomByIdAsync(int roomId)
         {
             Room? room = await _roomRepository.GetByIdAsync(roomId);
             if (room == null)
