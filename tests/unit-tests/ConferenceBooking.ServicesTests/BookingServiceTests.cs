@@ -27,6 +27,7 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto = new()
             {
                 RoomId = roomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now,
                 EndDateTime = DateTime.Now
             };
@@ -52,18 +53,21 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto1 = new()
             {
                 RoomId = roomDto1.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddHours(1),
                 EndDateTime = DateTime.Now.AddHours(2)
             };
             BookingDto bookingDto2 = new()
             {
                 RoomId = roomDto1.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddHours(3),
                 EndDateTime = DateTime.Now.AddHours(4)
             };
             BookingDto bookingDto3 = new()
             {
                 RoomId = roomDto2.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddHours(5),
                 EndDateTime = DateTime.Now.AddHours(6)
             };
@@ -88,6 +92,7 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto1 = new()
             {
                 RoomId = roomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = DateTime.Now.AddHours(2),
                 EndDateTime = DateTime.Now.AddHours(1)
             };
@@ -110,12 +115,14 @@ namespace ConferenceBooking.ServicesTests
             BookingDto bookingDto1 = new()
             {
                 RoomId = roomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = startDateTime,
                 EndDateTime = endDateTime
             };
             BookingDto bookingDto2 = new()
             {
                 RoomId = roomDto.Id,
+                ApplicationUserId = 0,
                 StartDateTime = startDateTime.AddMinutes(5),
                 EndDateTime = endDateTime
             };
