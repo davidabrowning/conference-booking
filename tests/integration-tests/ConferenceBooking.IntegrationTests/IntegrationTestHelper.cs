@@ -1,11 +1,6 @@
 ﻿using ConferenceBooking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConferenceBooking.IntegrationTests
 {
@@ -16,7 +11,8 @@ namespace ConferenceBooking.IntegrationTests
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.test.json")
                 .Build();
-            string testDbConnectionString = configuration.GetConnectionString("IntegrationTestsDatabase") ?? string.Empty;
+            string testDbConnectionString = configuration.GetConnectionString(
+                "IntegrationTestsDatabase") ?? string.Empty;
 
             DbContextOptions<ApplicationDbContext> dbContextOptions
                 = new DbContextOptionsBuilder<ApplicationDbContext>()

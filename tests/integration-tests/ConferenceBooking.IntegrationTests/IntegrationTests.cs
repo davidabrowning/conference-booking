@@ -1,11 +1,8 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
-using ConferenceBooking.Core.Models;
 using ConferenceBooking.Data;
 using ConferenceBooking.Data.Repositories;
 using ConferenceBooking.Services.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace ConferenceBooking.IntegrationTests
 {
