@@ -50,7 +50,7 @@ namespace ConferenceBooking.IntegrationTests
         public async Task Booking_WhenSaved_ShouldSaveCorrectlyToDatabase()
         {
             // Arrange
-            string roomName = "Room" + DateTime.Now; 
+            string roomName = "Room" + DateTime.Now + Guid.NewGuid(); 
             RoomDto roomDto = new() { Name = roomName };
             await _bookingService.AddRoomAsync(roomDto);
             RoomDto createdRoomDto = await _bookingService.GetRoomByNameAsync(roomName);
@@ -72,7 +72,7 @@ namespace ConferenceBooking.IntegrationTests
         public async Task Booking_WhenExists_ShouldBeFetchedCorrectlyFromDatabase()
         {
             // Arrange
-            string roomName = "Room" + DateTime.Now;
+            string roomName = "Room" + DateTime.Now + Guid.NewGuid();
             RoomDto roomDto = new() { Name = roomName };
             await _bookingService.AddRoomAsync(roomDto);
             RoomDto createdRoomDto = await _bookingService.GetRoomByNameAsync(roomName);
