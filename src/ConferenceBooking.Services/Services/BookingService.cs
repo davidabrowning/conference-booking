@@ -63,7 +63,9 @@ namespace ConferenceBooking.Services.Services
 
         public async Task<RoomDto> GetRoomByNameAsync(string roomName)
         {
-            Room room = await _roomRepository.GetByNameAsync(roomName);
+            Room? room = await _roomRepository.GetByNameAsync(roomName);
+            if (room == null)
+                throw new InvalidOperationException(ErrorMessages.RoomIsNull);
             RoomDto roomDto = new() { 
                 Id = room.Id,
                 Name = room.Name 
