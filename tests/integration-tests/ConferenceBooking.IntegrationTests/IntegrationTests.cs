@@ -18,7 +18,7 @@ namespace ConferenceBooking.IntegrationTests
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.test.json")
                 .Build();
-            string testDbConnectionString = configuration.GetConnectionString("TestDatabase") ?? string.Empty;
+            string testDbConnectionString = configuration.GetConnectionString("IntegrationTestsDatabase") ?? string.Empty;
 
             // string testDbConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ConfBookingTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
             DbContextOptions<ApplicationDbContext> dbContextOptions
