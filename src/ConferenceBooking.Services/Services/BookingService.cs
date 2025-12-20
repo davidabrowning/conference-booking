@@ -89,6 +89,9 @@ namespace ConferenceBooking.Services.Services
 
         public async Task AddApplicationUserAsync(ApplicationUserDto applicationUserDto)
         {
+            ApplicationUser? applicationUser = await _applicationUserRepository.GetByUsername(applicationUserDto.Username);
+            if (applicationUser != null)
+                throw new InvalidOperationException(ErrorMessages.ApplicationUsernameAlreadyExists);
             await _applicationUserRepository.AddAsync(ApplicationUserMapper.ToModel(applicationUserDto));
         }
 

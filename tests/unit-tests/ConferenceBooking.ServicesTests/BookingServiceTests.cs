@@ -145,5 +145,17 @@ namespace ConferenceBooking.ServicesTests
             await Assert.ThrowsAsync<InvalidOperationException>(async () 
                 => await _bookingService.AddRoomAsync(new RoomDto() { Name = roomName }));
         }
+
+        [Fact]
+        public async Task AddApplicationUser_WhenUsernameAlreadyExists_ThrowsException()
+        {
+            // Arrange
+            string applicationUsername = "User" + DateTime.Now + Guid.NewGuid();
+            await _bookingService.AddApplicationUserAsync(new ApplicationUserDto() { Username = applicationUsername });
+
+            // Ac & assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async ()
+                => await _bookingService.AddApplicationUserAsync(new ApplicationUserDto() { Username = applicationUsername }));
+        }
     }
 }
