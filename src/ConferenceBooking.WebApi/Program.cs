@@ -1,4 +1,7 @@
 
+using ConferenceBooking.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace ConferenceBooking.WebApi
 {
     public class Program
@@ -7,10 +10,10 @@ namespace ConferenceBooking.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
+            string connectionString = builder.Configuration.GetConnectionString("ProdDatabase") ?? string.Empty;
+            builder.Services.AddDbContext<ApplicationDbContext>(options => 
+                options.UseSqlServer(connectionString));
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
