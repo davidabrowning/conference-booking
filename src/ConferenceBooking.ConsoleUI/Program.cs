@@ -10,8 +10,11 @@ namespace ConferenceBooking.ConsoleUI
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-            builder.Services.AddScoped<IApiClient, ApiClient>();
             builder.Services.AddTransient<IUserMenu, UserMenu>();
+            builder.Services.AddHttpClient<IApiClient, ApiClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7180");
+            });
 
             IHost app = builder.Build();
 

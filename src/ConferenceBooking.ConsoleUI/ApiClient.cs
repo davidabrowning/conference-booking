@@ -7,9 +7,9 @@ namespace ConferenceBooking.ConsoleUI
     public class ApiClient : IApiClient
     {
         private readonly HttpClient _httpClient;
-        public ApiClient()
+        public ApiClient(HttpClient httpClient)
         {
-               _httpClient = new() { BaseAddress = new Uri("https://localhost:7180") };
+               _httpClient = httpClient;
         }
         public async Task<IEnumerable<ApplicationUserDto>> GetUsersAsync()
         {
