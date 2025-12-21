@@ -13,6 +13,7 @@ namespace ConferenceBooking.ConsoleUI
 
             builder.Services.AddTransient<IUserMenu, MenuManager>();
             builder.Services.AddTransient<UserSelectionMenu>();
+            builder.Services.AddTransient<BookingMenu>();
             builder.Services.AddHttpClient<IApiClient, ApiClient>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7180");

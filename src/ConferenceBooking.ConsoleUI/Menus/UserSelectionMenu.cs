@@ -6,6 +6,7 @@ namespace ConferenceBooking.ConsoleUI.Menus
 {
     public class UserSelectionMenu
     {
+        public bool UserWantsToContinue { get; private set; } = true;
         private readonly IApiClient _apiClient;
 
         public UserSelectionMenu(IApiClient apiClient)

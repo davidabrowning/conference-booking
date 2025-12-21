@@ -9,6 +9,7 @@
         private const ConsoleColor SuccessColor = ConsoleColor.Green;
         private const ConsoleColor MenuColor = ConsoleColor.Magenta;
         private const ConsoleColor PromptColor = ConsoleColor.Cyan;
+        private const ConsoleColor SubtleColor = ConsoleColor.DarkGray;
         public static void PrintPageTitle(string text)
         {
             Console.Clear();
@@ -57,6 +58,13 @@
         {
             Console.ForegroundColor = PromptColor;
             Console.WriteLine(text);
+        }
+
+        public static void ConfirmContinue()
+        {
+            Console.ForegroundColor = SubtleColor;
+            Console.WriteLine("Press ENTER to continue.");
+            Console.ReadLine();
         }
     }
 }
