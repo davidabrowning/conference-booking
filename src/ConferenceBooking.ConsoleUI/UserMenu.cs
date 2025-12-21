@@ -1,22 +1,22 @@
 ﻿using ConferenceBooking.Core.Dtos;
+using ConferenceBooking.Core.Interfaces;
 using Newtonsoft.Json;
 
 namespace ConferenceBooking.ConsoleUI
 {
     public class UserMenu
     {
+        private readonly IApiClient _apiClient;
+
+        public UserMenu(IApiClient apiClient)
+        {
+            _apiClient = apiClient;
+        }
+
         public async Task RunAsync()
         {
-            HttpClient httpClient = new() { BaseAddress = new Uri("https://localhost:7180") };
-            var response = await httpClient.GetAsync($"api/applicationusers");
-            response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
-            IEnumerable<ApplicationUserDto>? applicationUserDtos = JsonConvert.DeserializeObject<IEnumerable<ApplicationUserDto>>(content);
-            if (applicationUserDtos == null)
-                return;
-
             Console.WriteLine("User list:");
-            foreach (ApplicationUserDto applicationUserDto in applicationUserDtos)
+            foreach (ApplicationUserDto applicationUserDto in await _apiClient.GetUsersAsync())
                 Console.WriteLine($"{applicationUserDto.Id}. {applicationUserDto.Username}");
             Console.WriteLine("Press ENTER to exit.");
             Console.ReadLine();

@@ -1,6 +1,9 @@
-﻿namespace ConferenceBooking.Core.Interfaces
+﻿using ConferenceBooking.Core.Dtos;
+
+namespace ConferenceBooking.Core.Interfaces
 {
     public interface IApiClient
     {
+        Task<IEnumerable<ApplicationUserDto>> GetUsersAsync();
     }
 }

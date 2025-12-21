@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ConferenceBooking.Core.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace ConferenceBooking.ConsoleUI
@@ -9,6 +10,7 @@ namespace ConferenceBooking.ConsoleUI
         {
             var builder = Host.CreateApplicationBuilder(args);
 
+            builder.Services.AddScoped<IApiClient, ApiClient>();
             builder.Services.AddTransient<UserMenu, UserMenu>();
 
             var app = builder.Build();
