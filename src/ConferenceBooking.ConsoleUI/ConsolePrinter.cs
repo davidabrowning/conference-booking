@@ -6,6 +6,7 @@
         private const ConsoleColor ErrorColor = ConsoleColor.Red;
         private const ConsoleColor WarningColor = ConsoleColor.Yellow;
         private const ConsoleColor InfoColor = ConsoleColor.White;
+        private const ConsoleColor SuccessColor = ConsoleColor.Green;
         private const ConsoleColor MenuColor = ConsoleColor.Magenta;
         private const ConsoleColor PromptColor = ConsoleColor.Cyan;
         public static void PrintPageTitle(string text)
@@ -25,6 +26,12 @@
         public static void PrintMenuItem(string text)
         {
             Console.ForegroundColor = MenuColor;
+            Console.WriteLine(text);
+        }
+
+        public static void PrintSuccess(string text)
+        {
+            Console.ForegroundColor = SuccessColor;
             Console.WriteLine(text);
         }
 
