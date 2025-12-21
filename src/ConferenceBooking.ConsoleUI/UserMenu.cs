@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ConferenceBooking.ConsoleUI
 {
-    public class UserMenu
+    public class UserMenu : IUserMenu
     {
         private readonly IApiClient _apiClient;
 

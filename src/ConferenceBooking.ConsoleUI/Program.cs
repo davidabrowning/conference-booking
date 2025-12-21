@@ -11,7 +11,7 @@ namespace ConferenceBooking.ConsoleUI
             var builder = Host.CreateApplicationBuilder(args);
 
             builder.Services.AddScoped<IApiClient, ApiClient>();
-            builder.Services.AddTransient<UserMenu, UserMenu>();
+            builder.Services.AddTransient<IUserMenu, UserMenu>();
 
             var app = builder.Build();
 
