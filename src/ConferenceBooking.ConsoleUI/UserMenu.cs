@@ -27,7 +27,7 @@ namespace ConferenceBooking.ConsoleUI
                 else
                     await ShowMainMenu();
             }
-            Console.WriteLine("Press ENTER to exit.");
+            ConsolePrinter.PrintPrompt("Press ENTER to exit.");
             Console.ReadLine();
         }
 
@@ -43,10 +43,10 @@ namespace ConferenceBooking.ConsoleUI
 
         private async Task ShowMainMenu()
         {
-            Console.WriteLine("Choose an option:");
-            Console.WriteLine("1. Display all users");
-            Console.WriteLine("2. Add a user");
-            Console.WriteLine("Q. Quit program");
+            ConsolePrinter.PrintMenuTitle("Choose an option:");
+            ConsolePrinter.PrintMenuItem("1. Display all users");
+            ConsolePrinter.PrintMenuItem("2. Add a user");
+            ConsolePrinter.PrintMenuItem("Q. Quit program");
 
             string choice = Console.ReadLine() ?? string.Empty;
 
@@ -63,32 +63,32 @@ namespace ConferenceBooking.ConsoleUI
                     _userWantsToContinue = false;
                     break;
                 default:
-                    Console.WriteLine("Unknown choice.");
+                    ConsolePrinter.PrintWarning("Unknown choice.");
                     break;
             }
         }
 
         private async Task ShowUserList()
         {
-            Console.WriteLine("User list:");
+            ConsolePrinter.PrintMenuTitle("User list:");
             try
             {
                 foreach (ApplicationUserDto applicationUserDto in await _apiClient.GetUsersAsync())
-                    Console.WriteLine($"{applicationUserDto.Id}. {applicationUserDto.Username}");
+                    ConsolePrinter.PrintMenuItem($"{applicationUserDto.Id}. {applicationUserDto.Username}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ConsolePrinter.PrintError(ex.Message);
             }
         }
 
         private async Task ShowCreateUserAsync()
         {
-            Console.WriteLine("Enter username:");
+            ConsolePrinter.PrintPrompt("Enter username:");
             string username = Console.ReadLine() ?? string.Empty;
             if (username == string.Empty)
             {
-                Console.WriteLine("Error: Username cannot be empty.");
+                ConsolePrinter.PrintError("Error: Username cannot be empty.");
                 return;
             }
 
@@ -99,7 +99,7 @@ namespace ConferenceBooking.ConsoleUI
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ConsolePrinter.PrintError(ex.Message);
             }
         }
 
@@ -107,15 +107,15 @@ namespace ConferenceBooking.ConsoleUI
         {
             try
             {
-                Console.WriteLine("Select your user (Q to quit):");
+                ConsolePrinter.PrintMenuTitle("Select your user (Q to quit):");
                 foreach (ApplicationUserDto applicationUserDto in await _apiClient.GetUsersAsync())
                 {
-                    Console.WriteLine($"{applicationUserDto.Id}. {applicationUserDto.Username}");
+                    ConsolePrinter.PrintMenuItem($"{applicationUserDto.Id}. {applicationUserDto.Username}");
                 } 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ConsolePrinter.PrintError(ex.Message);
             }
             string choice = Console.ReadLine() ?? string.Empty;
             if (choice.ToUpper() == "Q")
@@ -131,7 +131,7 @@ namespace ConferenceBooking.ConsoleUI
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ConsolePrinter.PrintError(ex.Message);
             }
 
         }
