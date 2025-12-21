@@ -11,7 +11,9 @@ namespace ConferenceBooking.ConsoleUI
             var response = await httpClient.GetAsync($"api/applicationusers");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            IEnumerable<ApplicationUserDto> applicationUserDtos = JsonConvert.DeserializeObject<IEnumerable<ApplicationUserDto>>(content);
+            IEnumerable<ApplicationUserDto>? applicationUserDtos = JsonConvert.DeserializeObject<IEnumerable<ApplicationUserDto>>(content);
+            if (applicationUserDtos == null)
+                return;
 
             Console.WriteLine("User list:");
             foreach (ApplicationUserDto applicationUserDto in applicationUserDtos)
