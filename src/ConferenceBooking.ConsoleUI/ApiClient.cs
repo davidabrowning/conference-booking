@@ -1,6 +1,8 @@
 ﻿using ConferenceBooking.Core.Dtos;
 using ConferenceBooking.Core.Interfaces;
+using ConferenceBooking.Core.Messages;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 namespace ConferenceBooking.ConsoleUI
 {
@@ -18,6 +20,18 @@ namespace ConferenceBooking.ConsoleUI
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<IEnumerable<ApplicationUserDto>>(content) 
                 ?? new List<ApplicationUserDto>();
+        }
+
+        public async Task<ApplicationUserDto> CreateUserAsync(ApplicationUserDto applicationUserDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/applicationusers", applicationUserDto);
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            ApplicationUserDto? createdDto = JsonConvert.DeserializeObject<ApplicationUserDto>(content);
+            if (createdDto == null)
+                throw new InvalidOperationException(ErrorMessages.ApplicationUserIsNull);
+            return createdDto;
+
         }
     }
 }
