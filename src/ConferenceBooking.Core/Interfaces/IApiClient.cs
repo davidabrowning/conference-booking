@@ -5,6 +5,7 @@ namespace ConferenceBooking.Core.Interfaces
     public interface IApiClient
     {
         Task<IEnumerable<ApplicationUserDto>> GetUsersAsync();
+        Task<ApplicationUserDto> GetUserByIdAsync(int userId);
         Task<ApplicationUserDto> CreateUserAsync(ApplicationUserDto applicationUserDto);
     }
 }

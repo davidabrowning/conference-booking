@@ -22,6 +22,15 @@ namespace ConferenceBooking.ConsoleUI
                 ?? new List<ApplicationUserDto>();
         }
 
+        public async Task<ApplicationUserDto> GetUserByIdAsync(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/applicationusers/{id}");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ApplicationUserDto>(content)
+                ?? throw new InvalidOperationException(ErrorMessages.ApplicationUserIsNull);
+        }
+
         public async Task<ApplicationUserDto> CreateUserAsync(ApplicationUserDto applicationUserDto)
         {
             var response = await _httpClient.PostAsJsonAsync($"api/applicationusers", applicationUserDto);
