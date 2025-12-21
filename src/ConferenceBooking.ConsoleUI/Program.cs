@@ -1,5 +1,5 @@
-﻿using ConferenceBooking.Core.Dtos;
-using Newtonsoft.Json;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace ConferenceBooking.ConsoleUI
 {
@@ -7,19 +7,14 @@ namespace ConferenceBooking.ConsoleUI
     {
         static async Task Main(string[] args)
         {
-            HttpClient httpClient = new() { BaseAddress = new Uri("https://localhost:7180") };
-            var response = await httpClient.GetAsync($"api/applicationusers");
-            response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
-            IEnumerable<ApplicationUserDto>? applicationUserDtos = JsonConvert.DeserializeObject<IEnumerable<ApplicationUserDto>>(content);
-            if (applicationUserDtos == null)
-                return;
+            var builder = Host.CreateApplicationBuilder(args);
 
-            Console.WriteLine("User list:");
-            foreach (ApplicationUserDto applicationUserDto in applicationUserDtos)
-                Console.WriteLine($"{applicationUserDto.Id}. {applicationUserDto.Username}");
-            Console.WriteLine("Press ENTER exit.");
-            Console.ReadLine();
+            builder.Services.AddTransient<UserMenu, UserMenu>();
+
+            var app = builder.Build();
+
+            var userMenu = app.Services.GetRequiredService<UserMenu>();
+            await userMenu.RunAsync();
         }
     }
 }
