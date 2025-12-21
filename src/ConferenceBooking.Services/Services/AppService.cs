@@ -127,5 +127,11 @@ namespace ConferenceBooking.Services.Services
                 throw new InvalidOperationException(ErrorMessages.RoomIsNull);
             return RoomMapper.ToDto(room);
         }
+
+        public async Task<bool> UsernameExistsAsync(string username)
+        {
+            ApplicationUser? applicationUser = await _applicationUserRepository.GetByUsername(username);
+            return applicationUser != null;
+        }
     }
 }

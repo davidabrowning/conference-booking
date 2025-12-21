@@ -9,5 +9,6 @@
         public const string RoomIsBooked = "Error: Room is booked";
         public const string RoomIsNull = "Error: Room is null.";
         public const string RoomNameAlreadyExists = "Error: Room name already exists.";
+        public const string UsernameIsBlank = "Error: Username is blank.";
     }
 }

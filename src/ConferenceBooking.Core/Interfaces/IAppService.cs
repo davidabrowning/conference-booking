@@ -9,6 +9,7 @@ namespace ConferenceBooking.Core.Interfaces
         Task AddUserAsync(ApplicationUserDto applicationUserDto);
         Task<ApplicationUserDto> GetUserByIdAsync(int applicationUserId);
         Task<ApplicationUserDto> GetUserByUsernameAsync(string username);
+        Task<bool> UsernameExistsAsync(string username);
 
         // Bookings
         Task<IEnumerable<BookingDto>> GetBookingsAsync();
