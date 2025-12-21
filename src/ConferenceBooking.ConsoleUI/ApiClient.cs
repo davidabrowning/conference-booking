@@ -16,8 +16,8 @@ namespace ConferenceBooking.ConsoleUI
             var response = await _httpClient.GetAsync($"api/applicationusers");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            IEnumerable<ApplicationUserDto>? applicationUserDtos = JsonConvert.DeserializeObject<IEnumerable<ApplicationUserDto>>(content);
-            return applicationUserDtos ?? new List<ApplicationUserDto>();
+            return JsonConvert.DeserializeObject<IEnumerable<ApplicationUserDto>>(content) 
+                ?? new List<ApplicationUserDto>();
         }
     }
 }

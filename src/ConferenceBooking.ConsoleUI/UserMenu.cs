@@ -16,8 +16,15 @@ namespace ConferenceBooking.ConsoleUI
         public async Task RunAsync()
         {
             Console.WriteLine("User list:");
-            foreach (ApplicationUserDto applicationUserDto in await _apiClient.GetUsersAsync())
-                Console.WriteLine($"{applicationUserDto.Id}. {applicationUserDto.Username}");
+            try
+            {
+                foreach (ApplicationUserDto applicationUserDto in await _apiClient.GetUsersAsync())
+                    Console.WriteLine($"{applicationUserDto.Id}. {applicationUserDto.Username}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             Console.WriteLine("Press ENTER to exit.");
             Console.ReadLine();
         }

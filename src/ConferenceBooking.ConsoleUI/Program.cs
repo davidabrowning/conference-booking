@@ -8,14 +8,15 @@ namespace ConferenceBooking.ConsoleUI
     {
         static async Task Main(string[] args)
         {
-            var builder = Host.CreateApplicationBuilder(args);
+            HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
             builder.Services.AddScoped<IApiClient, ApiClient>();
             builder.Services.AddTransient<IUserMenu, UserMenu>();
 
-            var app = builder.Build();
+            IHost app = builder.Build();
 
-            var userMenu = app.Services.GetRequiredService<UserMenu>();
+            IUserMenu userMenu = app.Services.GetRequiredService<IUserMenu>();
+            
             await userMenu.RunAsync();
         }
     }
