@@ -69,7 +69,7 @@ namespace ConferenceBooking.ConsoleUI.IO
             Console.Write(text + " ");
         }
 
-        public  void PrintSubtle(string text)
+        public void PrintSubtle(string text)
         {
             Console.ForegroundColor = SubtleColor;
             Console.WriteLine();
