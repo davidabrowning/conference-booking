@@ -45,6 +45,9 @@ namespace ConferenceBooking.ConsoleUI.Menus
                 case "2":
                     await CreateBookingAsync();
                     break;
+                case "3":
+                    await ListBookingsAsync();
+                    break;
                 case "Q":
                 case "q":
                     UserWantsToContinue = false;
@@ -98,6 +101,21 @@ namespace ConferenceBooking.ConsoleUI.Menus
             catch (Exception ex)
             {
                 _output.PrintError(ex.Message);
+            }
+            _output.ConfirmContinue();
+        }
+
+        private async Task ListBookingsAsync()
+        {
+            IEnumerable<ApplicationUserDto> users = await _apiClient.GetUsersAsync();
+            IEnumerable<RoomDto> rooms = await _apiClient.GetRoomsAsync();
+            IEnumerable<BookingDto> bookings = await _apiClient.GetBookingsAsync();
+            _output.PrintListTitle("Bookings");
+            foreach (BookingDto booking in bookings)
+            {
+                ApplicationUserDto? user = users.FirstOrDefault(u => u.Id == booking.ApplicationUserId);
+                RoomDto? room = rooms.FirstOrDefault(r => r.Id == booking.RoomId);
+                _output.PrintListItem($"{booking.StartDateTime} to {booking.EndDateTime} {room.Name} booked by {user.Username}");
             }
             _output.ConfirmContinue();
         }

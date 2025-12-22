@@ -56,5 +56,14 @@ namespace ConferenceBooking.ConsoleUI
             return JsonConvert.DeserializeObject<IEnumerable<RoomDto>>(content)
                 ?? new List<RoomDto>();
         }
+
+        public async Task<IEnumerable<BookingDto>> GetBookingsAsync()
+        {
+            var response = await _httpClient.GetAsync($"api/bookings");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<IEnumerable<BookingDto>>(content)
+                ?? new List<BookingDto>();
+        }
     }
 }

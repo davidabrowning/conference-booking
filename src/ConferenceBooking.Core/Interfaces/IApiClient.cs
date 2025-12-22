@@ -5,6 +5,7 @@ namespace ConferenceBooking.Core.Interfaces
     public interface IApiClient
     {
         // Booking
+        Task<IEnumerable<BookingDto>> GetBookingsAsync();
         Task CreateBookingAsync(BookingDto bookingDto);
 
         // Room
