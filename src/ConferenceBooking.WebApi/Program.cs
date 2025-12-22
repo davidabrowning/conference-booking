@@ -1,5 +1,8 @@
 
+using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Data;
+using ConferenceBooking.Data.Repositories;
+using ConferenceBooking.Services.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConferenceBooking.WebApi
@@ -16,12 +19,17 @@ namespace ConferenceBooking.WebApi
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
 
+            builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+            builder.Services.AddScoped<IAppService, AppService>();
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "ConferenceBooking"));
             }
 
             app.UseHttpsRedirection();
