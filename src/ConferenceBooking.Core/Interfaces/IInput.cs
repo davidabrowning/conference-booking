@@ -2,5 +2,6 @@
 {
     public interface IInput
     {
+        string GetStringInput(string prompt);
     }
 }

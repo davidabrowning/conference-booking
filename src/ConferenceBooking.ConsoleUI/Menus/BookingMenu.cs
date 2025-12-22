@@ -8,11 +8,13 @@ namespace ConferenceBooking.ConsoleUI.Menus
         public bool UserWantsToContinue { get; private set; } = true;
         private readonly IApiClient _apiClient;
         private ApplicationUserDto? _currentUserDto;
+        private IInput _input;
         private IOutput _output;
 
-        public BookingMenu(IApiClient apiClient, IOutput output)
+        public BookingMenu(IApiClient apiClient, IInput input, IOutput output)
         {
             _apiClient = apiClient;
+            _input = input;
             _output = output;
         }
 
@@ -32,8 +34,8 @@ namespace ConferenceBooking.ConsoleUI.Menus
             _output.PrintMenuItem("3. List bookings");
             _output.PrintMenuItem("4. Check room availability");
             _output.PrintMenuItem("Q. Quit program");
-            _output.PrintPrompt("Your choice: ");
-            string choice = Console.ReadLine() ?? string.Empty;
+
+            string choice = _input.GetStringInput("Your choice:");
 
             switch (choice)
             {

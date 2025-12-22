@@ -8,11 +8,13 @@ namespace ConferenceBooking.ConsoleUI.Menus
     {
         public bool UserWantsToContinue { get; private set; } = true;
         private readonly IApiClient _apiClient;
+        private readonly IInput _input;
         private readonly IOutput _output;
 
-        public UserSelectionMenu(IApiClient apiClient, IOutput output)
+        public UserSelectionMenu(IApiClient apiClient, IInput input, IOutput output)
         {
             _apiClient = apiClient;
+            _input = input;
             _output = output;
         }
 
@@ -24,13 +26,7 @@ namespace ConferenceBooking.ConsoleUI.Menus
         private async Task<ApplicationUserDto?> SelectUserAsync()
         {
             _output.PrintPageTitle("Conference Booking System Login");
-            _output.PrintPrompt("Enter username:");
-            string username = Console.ReadLine() ?? string.Empty;
-            if (username == string.Empty)
-            {
-                _output.PrintError(ErrorMessages.UsernameIsBlank);
-                return null;
-            }
+            string username = _input.GetStringInput("Enter username:");
 
             IEnumerable<ApplicationUserDto> applicationUserDtos;
             try
