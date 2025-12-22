@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceBooking.WebApi", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceBooking.Documentation", "docs\ConferenceBooking.Documentation\ConferenceBooking.Documentation.csproj", "{724249B2-C604-1135-3F7A-B47DBA9341F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceBooking.ConsoleUI", "src\ConferenceBooking.ConsoleUI\ConferenceBooking.ConsoleUI.csproj", "{0C7A9421-33BE-A5AD-3B1F-0C7C026FDABC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{724249B2-C604-1135-3F7A-B47DBA9341F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{724249B2-C604-1135-3F7A-B47DBA9341F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{724249B2-C604-1135-3F7A-B47DBA9341F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C7A9421-33BE-A5AD-3B1F-0C7C026FDABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C7A9421-33BE-A5AD-3B1F-0C7C026FDABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C7A9421-33BE-A5AD-3B1F-0C7C026FDABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7A9421-33BE-A5AD-3B1F-0C7C026FDABC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{CF15AE6A-D91F-4C91-892D-600955560853} = {62E483FA-E5B6-40A5-9DB2-3E4A1A236B47}
 		{1D7844D0-DA3B-4FE5-06E4-3663251B3E04} = {62E483FA-E5B6-40A5-9DB2-3E4A1A236B47}
 		{724249B2-C604-1135-3F7A-B47DBA9341F2} = {11295F6F-BFAD-439E-BEA3-C3E83E3FFB01}
+		{0C7A9421-33BE-A5AD-3B1F-0C7C026FDABC} = {62E483FA-E5B6-40A5-9DB2-3E4A1A236B47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {426430F3-DD4B-4D18-988D-F1BF1C71E9B8}
