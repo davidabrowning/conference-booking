@@ -65,5 +65,13 @@ namespace ConferenceBooking.ConsoleUI
             return JsonConvert.DeserializeObject<IEnumerable<BookingDto>>(content)
                 ?? new List<BookingDto>();
         }
+
+        public async Task<bool> CheckAvailability(BookingDto bookingDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/bookings/checkavailability", bookingDto);
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<bool>(content);
+        }
     }
 }

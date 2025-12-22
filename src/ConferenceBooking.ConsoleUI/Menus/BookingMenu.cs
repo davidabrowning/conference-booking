@@ -48,6 +48,9 @@ namespace ConferenceBooking.ConsoleUI.Menus
                 case "3":
                     await ListBookingsAsync();
                     break;
+                case "4":
+                    await CheckAvailabilityAsync();
+                    break;
                 case "Q":
                 case "q":
                     UserWantsToContinue = false;
@@ -116,6 +119,34 @@ namespace ConferenceBooking.ConsoleUI.Menus
                 ApplicationUserDto? user = users.FirstOrDefault(u => u.Id == booking.ApplicationUserId);
                 RoomDto? room = rooms.FirstOrDefault(r => r.Id == booking.RoomId);
                 _output.PrintListItem($"{booking.StartDateTime} to {booking.EndDateTime} {room.Name} booked by {user.Username}");
+            }
+            _output.ConfirmContinue();
+        }
+
+        private async Task CheckAvailabilityAsync()
+        {
+            try
+            {
+                IEnumerable<RoomDto> rooms = await _apiClient.GetRoomsAsync();
+                RoomDto room = _input.GetSelectionFromList("Rooms", rooms);
+                DateTime startDateTime = _input.GetDateTimeInput("Start time (YYYY-MM-DD HH:MM):");
+                DateTime endDateTime = _input.GetDateTimeInput("End time (YYYY-MM-DD HH:MM):");
+                BookingDto bookingDto = new()
+                {
+                    ApplicationUserId = _currentUserDto.Id,
+                    RoomId = room.Id,
+                    StartDateTime = startDateTime,
+                    EndDateTime = endDateTime
+                };
+                bool isAvailable = await _apiClient.CheckAvailability(bookingDto);
+                if (isAvailable)
+                    _output.PrintSuccess($"{room.Name} is available at that time.");
+                else
+                    _output.PrintWarning($"{room.Name} is not available at that time.");
+            }
+            catch (Exception ex)
+            {
+                _output.PrintError(ex.Message);
             }
             _output.ConfirmContinue();
         }

@@ -36,6 +36,20 @@ namespace ConferenceBooking.WebApi.Controllers
             }
         }
 
+        // GET api/<BookingsController>/5
+        [HttpPost("checkavailability")]
+        public async Task<ActionResult<bool>> Get([FromBody] BookingDto bookingDto)
+        {
+            try
+            {
+                return Ok(await _appService.IsAvailable(bookingDto));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // POST api/<BookingsController>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] BookingDto bookingDto)

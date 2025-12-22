@@ -16,6 +16,7 @@ namespace ConferenceBooking.Core.Interfaces
         Task AddBookingAsync(BookingDto bookingDto);
         Task<BookingDto> GetBookingByIdAsync(int bookingId);
         Task<IEnumerable<BookingDto>> GetBookingsByRoomAsync(RoomDto roomDto1);
+        Task<bool> IsAvailable(BookingDto bookingDto);
 
         // Rooms
         Task<IEnumerable<RoomDto>> GetRoomsAsync();
