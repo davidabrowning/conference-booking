@@ -40,7 +40,21 @@ namespace ConferenceBooking.ConsoleUI
             if (createdDto == null)
                 throw new InvalidOperationException(ErrorMessages.ApplicationUserIsNull);
             return createdDto;
+        }
 
+        public async Task CreateBookingAsync(BookingDto bookingDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/bookings", bookingDto);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<IEnumerable<RoomDto>> GetRoomsAsync()
+        {
+            var response = await _httpClient.GetAsync($"api/rooms");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<IEnumerable<RoomDto>>(content)
+                ?? new List<RoomDto>();
         }
     }
 }

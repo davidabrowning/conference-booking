@@ -22,5 +22,6 @@ namespace ConferenceBooking.Core.Interfaces
         Task AddRoomAsync(RoomDto roomDto);
         Task<RoomDto> GetRoomByIdAsync(int roomId);
         Task<RoomDto> GetRoomByNameAsync(string roomName);
+        Task SeedRoomsAsync();
     }
 }

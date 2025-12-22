@@ -28,12 +28,12 @@ namespace ConferenceBooking.ConsoleUI.Menus
         {
             _output.PrintPageTitle("Conference Booking System");
             _output.PrintLoggedInStatus(_currentUserDto);
-            _output.PrintMenuTitle("Main menu");
-            _output.PrintMenuItem("1. List users");
-            _output.PrintMenuItem("2. Create booking");
-            _output.PrintMenuItem("3. List bookings");
-            _output.PrintMenuItem("4. Check room availability");
-            _output.PrintMenuItem("Q. Quit program");
+            _output.PrintListTitle("Main menu");
+            _output.PrintListItem("1. List users");
+            _output.PrintListItem("2. Create booking");
+            _output.PrintListItem("3. List bookings");
+            _output.PrintListItem("4. Check room availability");
+            _output.PrintListItem("Q. Quit program");
 
             string choice = _input.GetStringInput("Your choice:");
 
@@ -58,12 +58,12 @@ namespace ConferenceBooking.ConsoleUI.Menus
 
         private async Task ShowUserListAsync()
         {
-            _output.PrintMenuTitle("User list:");
+            _output.PrintListTitle("User list:");
             try
             {
                 List<ApplicationUserDto> users = (await _apiClient.GetUsersAsync()).OrderBy(u => u.Username).ToList();
                 foreach (ApplicationUserDto applicationUserDto in users)
-                    _output.PrintMenuItem($"{applicationUserDto.Username}");
+                    _output.PrintListItem($"{applicationUserDto.Username}");
             }
             catch (Exception ex)
             {
@@ -74,7 +74,11 @@ namespace ConferenceBooking.ConsoleUI.Menus
 
         private async Task CreateBookingAsync()
         {
-            // List<RoomDto> rooms = await _apiClient.GetRoomsAsync();
+            _output.PrintListTitle("Rooms");
+            IEnumerable<RoomDto> rooms = await _apiClient.GetRoomsAsync();
+            foreach (RoomDto roomDto in rooms)
+                _output.PrintListItem(roomDto.Name);
+            _output.ConfirmContinue();
         }
     }
 }

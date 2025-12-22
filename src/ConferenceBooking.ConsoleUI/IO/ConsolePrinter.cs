@@ -21,14 +21,14 @@ namespace ConferenceBooking.ConsoleUI.IO
             Console.WriteLine(text.ToUpper());
         }
 
-        public void PrintMenuTitle(string text)
+        public void PrintListTitle(string text)
         {
             Console.ForegroundColor = MenuColor;
             Console.WriteLine();
             Console.WriteLine(text);
         }
 
-        public void PrintMenuItem(string text)
+        public void PrintListItem(string text)
         {
             Console.ForegroundColor = MenuColor;
             Console.WriteLine(text);
