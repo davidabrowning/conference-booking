@@ -8,10 +8,12 @@ namespace ConferenceBooking.ConsoleUI.Menus
     {
         public bool UserWantsToContinue { get; private set; } = true;
         private readonly IApiClient _apiClient;
+        private readonly IOutput _output;
 
-        public UserSelectionMenu(IApiClient apiClient)
+        public UserSelectionMenu(IApiClient apiClient, IOutput output)
         {
             _apiClient = apiClient;
+            _output = output;
         }
 
         public async Task<ApplicationUserDto?> LoginAsync()
@@ -21,12 +23,12 @@ namespace ConferenceBooking.ConsoleUI.Menus
 
         private async Task<ApplicationUserDto?> SelectUserAsync()
         {
-            ConsolePrinter.PrintPageTitle("Conference Booking System Login");
-            ConsolePrinter.PrintPrompt("Enter username:");
+            _output.PrintPageTitle("Conference Booking System Login");
+            _output.PrintPrompt("Enter username:");
             string username = Console.ReadLine() ?? string.Empty;
             if (username == string.Empty)
             {
-                ConsolePrinter.PrintError(ErrorMessages.UsernameIsBlank);
+                _output.PrintError(ErrorMessages.UsernameIsBlank);
                 return null;
             }
 
@@ -37,14 +39,14 @@ namespace ConferenceBooking.ConsoleUI.Menus
             }
             catch (Exception ex)
             {
-                ConsolePrinter.PrintError(ex.Message);
+                _output.PrintError(ex.Message);
                 return null;
             }
 
             ApplicationUserDto? existingUserDto = applicationUserDtos.FirstOrDefault(au => au.Username == username);
             if (existingUserDto != null)
             {
-                ConsolePrinter.PrintSuccess($"Logged in as {existingUserDto.Username}");
+                _output.PrintSuccess($"Logged in as {existingUserDto.Username}");
                 return existingUserDto;
             }
 
@@ -55,7 +57,7 @@ namespace ConferenceBooking.ConsoleUI.Menus
             }
             catch (Exception ex)
             {
-                ConsolePrinter.PrintError(ex.Message);
+                _output.PrintError(ex.Message);
                 return null;
             }
         }

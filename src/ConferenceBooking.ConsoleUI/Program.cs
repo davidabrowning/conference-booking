@@ -1,4 +1,5 @@
-﻿using ConferenceBooking.ConsoleUI.Menus;
+﻿using ConferenceBooking.ConsoleUI.IO;
+using ConferenceBooking.ConsoleUI.Menus;
 using ConferenceBooking.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,8 @@ namespace ConferenceBooking.ConsoleUI
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
+            builder.Services.AddTransient<IInput, KeyboardInputRetriever>();
+            builder.Services.AddTransient<IOutput, ConsolePrinter>();
             builder.Services.AddTransient<IUserMenu, MenuManager>();
             builder.Services.AddTransient<UserSelectionMenu>();
             builder.Services.AddTransient<BookingMenu>();

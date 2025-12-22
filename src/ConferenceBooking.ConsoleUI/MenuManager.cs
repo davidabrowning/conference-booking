@@ -26,7 +26,6 @@ namespace ConferenceBooking.ConsoleUI
                 else
                     await _bookingMenu.RunAsync(_selectedUser);
             }
-            ConsolePrinter.ConfirmContinue();
         }
 
         private bool UserWantsToContinue()

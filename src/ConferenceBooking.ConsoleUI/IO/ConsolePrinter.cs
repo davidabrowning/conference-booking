@@ -1,8 +1,9 @@
 ﻿using ConferenceBooking.Core.Dtos;
+using ConferenceBooking.Core.Interfaces;
 
-namespace ConferenceBooking.ConsoleUI
+namespace ConferenceBooking.ConsoleUI.IO
 {
-    public class ConsolePrinter
+    public class ConsolePrinter : IOutput
     {
         private const ConsoleColor DefaultColor = ConsoleColor.Gray;
         private const ConsoleColor ErrorColor = ConsoleColor.Red;
@@ -13,69 +14,69 @@ namespace ConferenceBooking.ConsoleUI
         private const ConsoleColor PromptColor = ConsoleColor.Cyan;
         private const ConsoleColor SubtleColor = ConsoleColor.DarkGray;
 
-        public static void PrintPageTitle(string text)
+        public void PrintPageTitle(string text)
         {
             Console.Clear();
             Console.ForegroundColor = DefaultColor;
             Console.WriteLine(text.ToUpper());
         }
 
-        public static void PrintMenuTitle(string text)
+        public void PrintMenuTitle(string text)
         {
             Console.ForegroundColor = MenuColor;
             Console.WriteLine();
             Console.WriteLine(text);
         }
 
-        public static void PrintMenuItem(string text)
+        public void PrintMenuItem(string text)
         {
             Console.ForegroundColor = MenuColor;
             Console.WriteLine(text);
         }
 
-        public static void PrintSuccess(string text)
+        public void PrintSuccess(string text)
         {
             Console.ForegroundColor = SuccessColor;
             Console.WriteLine();
             Console.WriteLine(text);
         }
 
-        public static void PrintInfo(string text)
+        public void PrintInfo(string text)
         {
             Console.ForegroundColor = InfoColor;
             Console.WriteLine();
             Console.WriteLine(text);
         }
 
-        public static void PrintError(string text)
+        public void PrintError(string text)
         {
             Console.ForegroundColor = ErrorColor;
             Console.WriteLine();
             Console.WriteLine(text);
         }
 
-        public static void PrintWarning(string text)
+        public void PrintWarning(string text)
         {
             Console.ForegroundColor = WarningColor;
             Console.WriteLine();
             Console.WriteLine(text);
         }
 
-        public static void PrintPrompt(string text)
+        public void PrintPrompt(string text)
         {
             Console.ForegroundColor = PromptColor;
             Console.WriteLine();
             Console.Write(text + " ");
         }
 
-        public static void PrintSubtle(string text)
+        public  void PrintSubtle(string text)
         {
             Console.ForegroundColor = SubtleColor;
             Console.WriteLine();
             Console.WriteLine(text);
         }
 
-        public static void PrintLoggedInStatus(ApplicationUserDto? currentUserDto)
+        public void PrintLoggedInStatus(ApplicationUserDto? currentUserDto)
         {
             if (currentUserDto == null)
                 PrintSubtle("Not logged in");
@@ -83,7 +84,7 @@ namespace ConferenceBooking.ConsoleUI
                 PrintSubtle($"Logged in as {currentUserDto.Username}");
         }
 
-        public static void ConfirmContinue()
+        public void ConfirmContinue()
         {
             Console.ForegroundColor = SubtleColor;
             Console.WriteLine();

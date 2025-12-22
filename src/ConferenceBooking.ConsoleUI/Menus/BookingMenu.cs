@@ -8,10 +8,12 @@ namespace ConferenceBooking.ConsoleUI.Menus
         public bool UserWantsToContinue { get; private set; } = true;
         private readonly IApiClient _apiClient;
         private ApplicationUserDto? _currentUserDto;
+        private IOutput _output;
 
-        public BookingMenu(IApiClient apiClient)
+        public BookingMenu(IApiClient apiClient, IOutput output)
         {
             _apiClient = apiClient;
+            _output = output;
         }
 
         public async Task RunAsync(ApplicationUserDto currentUserDto)
@@ -22,46 +24,55 @@ namespace ConferenceBooking.ConsoleUI.Menus
 
         private async Task ShowMainMenu()
         {
-            ConsolePrinter.PrintPageTitle("Conference Booking System");
-            ConsolePrinter.PrintLoggedInStatus(_currentUserDto);
-            ConsolePrinter.PrintMenuTitle("Main menu");
-            ConsolePrinter.PrintMenuItem("1. List users");
-            ConsolePrinter.PrintMenuItem("2. Create booking");
-            ConsolePrinter.PrintMenuItem("3. List bookings");
-            ConsolePrinter.PrintMenuItem("4. Check room availability");
-            ConsolePrinter.PrintMenuItem("Q. Quit program");
-            ConsolePrinter.PrintPrompt("Your choice: ");
+            _output.PrintPageTitle("Conference Booking System");
+            _output.PrintLoggedInStatus(_currentUserDto);
+            _output.PrintMenuTitle("Main menu");
+            _output.PrintMenuItem("1. List users");
+            _output.PrintMenuItem("2. Create booking");
+            _output.PrintMenuItem("3. List bookings");
+            _output.PrintMenuItem("4. Check room availability");
+            _output.PrintMenuItem("Q. Quit program");
+            _output.PrintPrompt("Your choice: ");
             string choice = Console.ReadLine() ?? string.Empty;
 
             switch (choice)
             {
                 case "1":
-                    await ShowUserList();
+                    await ShowUserListAsync();
+                    break;
+                case "2":
+                    await CreateBookingAsync();
                     break;
                 case "Q":
                 case "q":
                     UserWantsToContinue = false;
                     break;
                 default:
-                    ConsolePrinter.PrintWarning("Unknown choice.");
+                    _output.PrintWarning("Unknown choice.");
+                    _output.ConfirmContinue();
                     break;
             }
         }
 
-        private async Task ShowUserList()
+        private async Task ShowUserListAsync()
         {
-            ConsolePrinter.PrintMenuTitle("User list:");
+            _output.PrintMenuTitle("User list:");
             try
             {
                 List<ApplicationUserDto> users = (await _apiClient.GetUsersAsync()).OrderBy(u => u.Username).ToList();
                 foreach (ApplicationUserDto applicationUserDto in users)
-                    ConsolePrinter.PrintMenuItem($"{applicationUserDto.Username}");
+                    _output.PrintMenuItem($"{applicationUserDto.Username}");
             }
             catch (Exception ex)
             {
-                ConsolePrinter.PrintError(ex.Message);
+                _output.PrintError(ex.Message);
             }
-            ConsolePrinter.ConfirmContinue();
+            _output.ConfirmContinue();
+        }
+
+        private async Task CreateBookingAsync()
+        {
+            // List<RoomDto> rooms = await _apiClient.GetRoomsAsync();
         }
     }
 }
