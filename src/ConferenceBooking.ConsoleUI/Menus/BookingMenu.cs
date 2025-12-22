@@ -7,7 +7,7 @@ namespace ConferenceBooking.ConsoleUI.Menus
     {
         public bool UserWantsToContinue { get; private set; } = true;
         private readonly IApiClient _apiClient;
-        private ApplicationUserDto _currentUserDto;
+        private ApplicationUserDto? _currentUserDto;
 
         public BookingMenu(IApiClient apiClient)
         {
@@ -22,13 +22,15 @@ namespace ConferenceBooking.ConsoleUI.Menus
 
         private async Task ShowMainMenu()
         {
-            ConsolePrinter.PrintMenuTitle("Choose an option:");
+            ConsolePrinter.PrintPageTitle("Conference Booking System");
+            ConsolePrinter.PrintLoggedInStatus(_currentUserDto);
+            ConsolePrinter.PrintMenuTitle("Main menu");
             ConsolePrinter.PrintMenuItem("1. List users");
             ConsolePrinter.PrintMenuItem("2. Create booking");
             ConsolePrinter.PrintMenuItem("3. List bookings");
             ConsolePrinter.PrintMenuItem("4. Check room availability");
             ConsolePrinter.PrintMenuItem("Q. Quit program");
-
+            ConsolePrinter.PrintPrompt("Your choice: ");
             string choice = Console.ReadLine() ?? string.Empty;
 
             switch (choice)
@@ -51,8 +53,9 @@ namespace ConferenceBooking.ConsoleUI.Menus
             ConsolePrinter.PrintMenuTitle("User list:");
             try
             {
-                foreach (ApplicationUserDto applicationUserDto in await _apiClient.GetUsersAsync())
-                    ConsolePrinter.PrintMenuItem($"{applicationUserDto.Id}. {applicationUserDto.Username}");
+                List<ApplicationUserDto> users = (await _apiClient.GetUsersAsync()).OrderBy(u => u.Username).ToList();
+                foreach (ApplicationUserDto applicationUserDto in users)
+                    ConsolePrinter.PrintMenuItem($"{applicationUserDto.Username}");
             }
             catch (Exception ex)
             {

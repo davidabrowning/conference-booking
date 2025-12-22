@@ -21,7 +21,7 @@ namespace ConferenceBooking.ConsoleUI.Menus
 
         private async Task<ApplicationUserDto?> SelectUserAsync()
         {
-            ConsolePrinter.PrintPageTitle("Login");
+            ConsolePrinter.PrintPageTitle("Conference Booking System Login");
             ConsolePrinter.PrintPrompt("Enter username:");
             string username = Console.ReadLine() ?? string.Empty;
             if (username == string.Empty)
