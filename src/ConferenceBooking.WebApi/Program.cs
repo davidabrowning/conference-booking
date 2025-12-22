@@ -1,4 +1,3 @@
-
 using ConferenceBooking.Core.Interfaces;
 using ConferenceBooking.Data;
 using ConferenceBooking.Data.Repositories;
@@ -33,10 +32,7 @@ namespace ConferenceBooking.WebApi
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
