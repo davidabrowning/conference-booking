@@ -74,9 +74,31 @@ namespace ConferenceBooking.ConsoleUI.Menus
 
         private async Task CreateBookingAsync()
         {
-            IEnumerable<RoomDto> rooms = await _apiClient.GetRoomsAsync();
-            RoomDto roomDto = _input.GetSelectionFromList<RoomDto>("Rooms", rooms);
-            _output.PrintSuccess($"Selected {roomDto.Name}");
+            _output.PrintPageTitle("Create booking");
+            try
+            {
+                IEnumerable<RoomDto> rooms = await _apiClient.GetRoomsAsync();
+                RoomDto roomDto = _input.GetSelectionFromList<RoomDto>("Rooms", rooms);
+                _output.PrintSuccess($"Selected {roomDto.Name}");
+                DateTime startDateTime = _input.GetDateTimeInput("Start time (YYYY-MM-DD HH:MM):");
+                _output.PrintSuccess($"Selected {startDateTime}");
+                DateTime endDateTime = _input.GetDateTimeInput("End time (YYYY-MM-DD HH:MM):");
+                _output.PrintSuccess($"Selected {endDateTime}");
+
+                BookingDto bookingDto = new()
+                {
+                    RoomId = roomDto.Id,
+                    ApplicationUserId = _currentUserDto.Id,
+                    StartDateTime = startDateTime,
+                    EndDateTime = endDateTime
+                };
+                await _apiClient.CreateBookingAsync(bookingDto);
+                _output.PrintSuccess($"Created booking:\nRoom: {roomDto.Name}\nUser: {_currentUserDto.Username}\nStart: {startDateTime}\nEnd: {endDateTime}");
+            }
+            catch (Exception ex)
+            {
+                _output.PrintError(ex.Message);
+            }
             _output.ConfirmContinue();
         }
     }

@@ -1,6 +1,4 @@
-﻿using ConferenceBooking.Core.Dtos;
-using ConferenceBooking.Core.Interfaces;
-using ConferenceBooking.Core.Models;
+﻿using ConferenceBooking.Core.Interfaces;
 
 namespace ConferenceBooking.ConsoleUI.IO
 {
@@ -29,7 +27,14 @@ namespace ConferenceBooking.ConsoleUI.IO
             while (inputInteger < min || inputInteger > max)
             {
                 string inputString = GetStringInput(prompt);
-                inputInteger = Convert.ToInt32(inputString);
+                try
+                {
+                    inputInteger = Convert.ToInt32(inputString);
+                }
+                catch (Exception ex)
+                {
+                    _output.PrintError(ex.Message);
+                }
             }
             return inputInteger;
         }
@@ -44,6 +49,40 @@ namespace ConferenceBooking.ConsoleUI.IO
                 userInput = userInput.Trim();
             }
             return userInput;
+        }
+
+        public DateTime GetDateTimeInput(string prompt)
+        {
+            bool validInput = false;
+            int year, month, day, hour, minute, second = 0;
+            DateTime dateTime = DateTime.MinValue;
+            while (!validInput)
+            {
+                string inputString = GetStringInput(prompt);
+                try
+                {
+                    string[] inputStringParts = inputString.Split(" ");
+                    string dateString = inputStringParts[0];
+                    string timeString = inputStringParts[1];
+
+                    string[] dateStringParts = dateString.Split("-");
+                    year = Convert.ToInt32(dateStringParts[0]);
+                    month = Convert.ToInt32(dateStringParts[1]);
+                    day = Convert.ToInt32(dateStringParts[2]);
+
+                    string[] timeStringParts = timeString.Split(":");
+                    hour = Convert.ToInt32(timeStringParts[0]);
+                    minute = Convert.ToInt32(timeStringParts[1]);
+
+                    dateTime = new DateTime(year, month, day, hour, minute, second);
+                    validInput = true;
+                }
+                catch (Exception ex)
+                {
+                    _output.PrintError(ex.Message);
+                }
+            }
+            return dateTime;
         }
     }
 }
