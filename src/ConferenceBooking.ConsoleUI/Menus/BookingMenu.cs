@@ -74,10 +74,9 @@ namespace ConferenceBooking.ConsoleUI.Menus
 
         private async Task CreateBookingAsync()
         {
-            _output.PrintListTitle("Rooms");
             IEnumerable<RoomDto> rooms = await _apiClient.GetRoomsAsync();
-            foreach (RoomDto roomDto in rooms)
-                _output.PrintListItem(roomDto.Name);
+            RoomDto roomDto = _input.GetSelectionFromList<RoomDto>("Rooms", rooms);
+            _output.PrintSuccess($"Selected {roomDto.Name}");
             _output.ConfirmContinue();
         }
     }
