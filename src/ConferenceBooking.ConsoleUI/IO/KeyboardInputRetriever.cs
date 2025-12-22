@@ -20,7 +20,7 @@ namespace ConferenceBooking.ConsoleUI.IO
             foreach (T entity in list)
                 _output.PrintListItem($"{++entityCounter}. {entity.ToString()}");
             int selection = GetIntInput(1, entityCounter, "Your choice:");
-            return list.ElementAt(selection);
+            return list.ElementAt(selection - 1);
         }
 
         public int GetIntInput(int min, int max, string prompt)
