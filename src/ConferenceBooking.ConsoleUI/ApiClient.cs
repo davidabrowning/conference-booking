@@ -22,6 +22,15 @@ namespace ConferenceBooking.ConsoleUI
                 ?? new List<ApplicationUserDto>();
         }
 
+        public async Task<ApplicationUserDto> GetUserByIdAsync(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/applicationusers/{id}");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ApplicationUserDto>(content)
+                ?? throw new InvalidOperationException(ErrorMessages.ApplicationUserIsNull);
+        }
+
         public async Task<ApplicationUserDto> CreateUserAsync(ApplicationUserDto applicationUserDto)
         {
             var response = await _httpClient.PostAsJsonAsync($"api/applicationusers", applicationUserDto);
@@ -31,7 +40,38 @@ namespace ConferenceBooking.ConsoleUI
             if (createdDto == null)
                 throw new InvalidOperationException(ErrorMessages.ApplicationUserIsNull);
             return createdDto;
+        }
 
+        public async Task CreateBookingAsync(BookingDto bookingDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/bookings", bookingDto);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<IEnumerable<RoomDto>> GetRoomsAsync()
+        {
+            var response = await _httpClient.GetAsync($"api/rooms");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<IEnumerable<RoomDto>>(content)
+                ?? new List<RoomDto>();
+        }
+
+        public async Task<IEnumerable<BookingDto>> GetBookingsAsync()
+        {
+            var response = await _httpClient.GetAsync($"api/bookings");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<IEnumerable<BookingDto>>(content)
+                ?? new List<BookingDto>();
+        }
+
+        public async Task<bool> CheckAvailability(BookingDto bookingDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/bookings/checkavailability", bookingDto);
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<bool>(content);
         }
     }
 }

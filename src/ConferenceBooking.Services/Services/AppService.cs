@@ -127,5 +127,23 @@ namespace ConferenceBooking.Services.Services
                 throw new InvalidOperationException(ErrorMessages.RoomIsNull);
             return RoomMapper.ToDto(room);
         }
+
+        public async Task<bool> UsernameExistsAsync(string username)
+        {
+            ApplicationUser? applicationUser = await _applicationUserRepository.GetByUsername(username);
+            return applicationUser != null;
+        }
+
+        public async Task SeedRoomsAsync()
+        {
+            await _roomRepository.AddAsync(new Room() { Name = "Room Lidingö" });
+            await _roomRepository.AddAsync(new Room() { Name = "Room Östermalm" });
+            await _roomRepository.AddAsync(new Room() { Name = "Room Vasastan" });
+            await _roomRepository.AddAsync(new Room() { Name = "Room Södermalm" });
+            await _roomRepository.AddAsync(new Room() { Name = "Room Sköndal" });
+            await _roomRepository.AddAsync(new Room() { Name = "Room Enskede" });
+            await _roomRepository.AddAsync(new Room() { Name = "Room Gamla Stan" });
+            await _roomRepository.AddAsync(new Room() { Name = "Room Norsborg" });
+        }
     }
 }

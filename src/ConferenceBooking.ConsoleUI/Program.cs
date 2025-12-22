@@ -1,4 +1,6 @@
-﻿using ConferenceBooking.Core.Interfaces;
+﻿using ConferenceBooking.ConsoleUI.IO;
+using ConferenceBooking.ConsoleUI.Menus;
+using ConferenceBooking.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -10,7 +12,11 @@ namespace ConferenceBooking.ConsoleUI
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-            builder.Services.AddTransient<IUserMenu, UserMenu>();
+            builder.Services.AddTransient<IInput, KeyboardInputRetriever>();
+            builder.Services.AddTransient<IOutput, ConsolePrinter>();
+            builder.Services.AddTransient<IUserMenu, MenuManager>();
+            builder.Services.AddTransient<UserSelectionMenu>();
+            builder.Services.AddTransient<BookingMenu>();
             builder.Services.AddHttpClient<IApiClient, ApiClient>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7180");
